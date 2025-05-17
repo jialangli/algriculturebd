@@ -1,0 +1,674 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>农产品产供销数据平台</title>
+    <!-- 引入Chart.js用于图表 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      /* 全局样式 */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      }
+
+      body {
+        background-color: #f5f7fa;
+        color: #333;
+        line-height: 1.6;
+      }
+
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      ul {
+        list-style: none;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 15px;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-size: 14px;
+      }
+
+      .btn-primary {
+        background-color: #389e0d;
+        color: white;
+        border: 1px solid #389e0d;
+      }
+
+      .btn-primary:hover {
+        background-color: #52c41a;
+        border-color: #52c41a;
+      }
+
+      .btn-outline {
+        background-color: transparent;
+        color: #389e0d;
+        border: 1px solid #389e0d;
+      }
+
+      .btn-outline:hover {
+        background-color: #f6ffed;
+      }
+
+      /* 导航栏 */
+      .navbar {
+        background-color: white;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+
+      .navbar-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 60px;
+      }
+
+      .logo {
+        font-size: 20px;
+        font-weight: bold;
+        color: #389e0d;
+        display: flex;
+        align-items: center;
+      }
+
+      .logo-icon {
+        margin-right: 8px;
+        font-size: 24px;
+      }
+
+      .nav-menu {
+        display: flex;
+      }
+
+      .nav-item {
+        margin-left: 25px;
+        position: relative;
+        padding: 18px 0;
+        font-weight: 500;
+        font-size: 15px;
+      }
+
+      .nav-item.active {
+        color: #389e0d;
+      }
+
+      .nav-item.active::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background-color: #389e0d;
+      }
+
+      .auth-buttons .btn {
+        margin-left: 10px;
+        padding: 6px 12px;
+      }
+
+      /* 数据选项卡 */
+      .data-tabs {
+        display: flex;
+        background-color: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        margin: 20px 0;
+      }
+
+      .data-tab {
+        flex: 1;
+        text-align: center;
+        padding: 12px;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-weight: 500;
+      }
+
+      .data-tab.active {
+        background-color: #389e0d;
+        color: white;
+      }
+
+      /* 数据过滤栏 */
+      .filter-bar {
+        background-color: white;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 20px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+      }
+
+      .filter-group {
+        display: flex;
+        align-items: center;
+      }
+
+      .filter-label {
+        margin-right: 10px;
+        font-size: 14px;
+        color: #666;
+      }
+
+      .filter-select {
+        padding: 8px 12px;
+        border: 1px solid #d9d9d9;
+        border-radius: 4px;
+        background-color: white;
+        min-width: 120px;
+      }
+
+      /* 数据表格 */
+      .data-table-container {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        margin-bottom: 30px;
+      }
+
+      .data-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      .data-table th,
+      .data-table td {
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px solid #f0f0f0;
+        font-size: 14px;
+      }
+
+      .data-table th {
+        background-color: #fafafa;
+        font-weight: 500;
+        color: #666;
+      }
+
+      .data-table tr:last-child td {
+        border-bottom: none;
+      }
+
+      .data-table tr:hover {
+        background-color: #f9f9f9;
+      }
+
+      /* 图表容器 */
+      .chart-container {
+        background-color: white;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
+      }
+
+      .chart-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .chart-title {
+        font-size: 18px;
+        font-weight: 500;
+      }
+
+      .chart-options {
+        display: flex;
+        gap: 10px;
+      }
+
+      .chart-option {
+        padding: 4px 10px;
+        border-radius: 4px;
+        font-size: 12px;
+        cursor: pointer;
+      }
+
+      .chart-option.active {
+        background-color: #e6f7d5;
+        color: #389e0d;
+      }
+
+      /* 页脚 */
+      .footer {
+        background-color: #333;
+        color: white;
+        padding: 30px 0 20px;
+        margin-top: 40px;
+      }
+
+      .footer-container {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 30px;
+      }
+
+      .footer-column h3 {
+        font-size: 16px;
+        margin-bottom: 15px;
+        position: relative;
+        padding-bottom: 10px;
+      }
+
+      .footer-column h3::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 30px;
+        height: 2px;
+        background-color: #389e0d;
+      }
+
+      .footer-links li {
+        margin-bottom: 8px;
+        font-size: 13px;
+      }
+
+      .footer-links a:hover {
+        color: #52c41a;
+      }
+
+      .copyright {
+        text-align: center;
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid #444;
+        color: #999;
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 导航栏 -->
+   
+
+    <!-- 主要内容 -->
+    <main class="container">
+      <!-- 数据选项卡 -->
+      <div class="data-tabs">
+        <div class="data-tab active" onclick="showDataSection('price')">价格行情</div>
+        <div class="data-tab" onclick="showDataSection('area')">种植面积</div>
+        <div class="data-tab" onclick="showDataSection('yield')">产量预测</div>
+      </div>
+
+      <!-- 价格行情部分 -->
+      <section id="price-section" class="data-section">
+        <!-- 过滤栏 -->
+        <div class="filter-bar">
+          <div class="filter-group">
+            <span class="filter-label">地区</span>
+            <select class="filter-select">
+              <option>全部</option>
+              <option>广东省</option>
+              <option>广西省</option>
+              <option>海南省</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <span class="filter-label">品类</span>
+            <select class="filter-select">
+              <option>全部</option>
+              <option>水果</option>
+              <option>蔬菜</option>
+              <option>粮食</option>
+            </select>
+          </div>
+          <button class="btn btn-primary" style="margin-left: auto">查询</button>
+        </div>
+
+        <!-- 价格图表 -->
+        <div class="chart-container">
+          <div class="chart-header">
+            <h3 class="chart-title">变化趋势</h3>
+            <div class="chart-options">
+              <div class="chart-option active">近7天</div>
+              <div class="chart-option">近30天</div>
+              <div class="chart-option">近半年</div>
+            </div>
+          </div>
+          <canvas id="priceChart" height="300"></canvas>
+        </div>
+
+        <!-- 价格表格 -->
+        <div class="data-table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>序号</th>
+                <th>类型</th>
+                <th>品名</th>
+                <th>价格</th>
+                <th>省份</th>
+                <th>数据时间</th>
+                <th>数据来源</th>
+                <th>地区/市场</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>水果</td>
+                <td>哈密瓜</td>
+                <td>4.4元/斤</td>
+                <td>广东省</td>
+                <td>2025/3/12</td>
+                <td>全国农批布</td>
+                <td>茂名市xx农贸市场</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>水果</td>
+                <td>哈密瓜</td>
+                <td>4.4元/斤</td>
+                <td>广东省</td>
+                <td>2025/3/12</td>
+                <td>全国农批布</td>
+                <td>茂名市xx农贸市场</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>水果</td>
+                <td>哈密瓜</td>
+                <td>4.4元/斤</td>
+                <td>广东省</td>
+                <td>2025/3/12</td>
+                <td>全国农批布</td>
+                <td>茂名市xx农贸市场</td>
+              </tr>
+              <tr>
+                <td>4</td>
+                <td>水果</td>
+                <td>哈密瓜</td>
+                <td>4.4元/斤</td>
+                <td>广东省</td>
+                <td>2025/3/12</td>
+                <td>全国农批布</td>
+                <td>茂名市xx农贸市场</td>
+              </tr>
+              <tr>
+                <td>5</td>
+                <td>水果</td>
+                <td>哈密瓜</td>
+                <td>4.4元/斤</td>
+                <td>广东省</td>
+                <td>2025/3/12</td>
+                <td>全国农批布</td>
+                <td>茂名市xx农贸市场</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 种植面积部分 -->
+      <section id="area-section" class="data-section" style="display: none">
+        <!-- 过滤栏 -->
+        <div class="filter-bar">
+          <div class="filter-group">
+            <span class="filter-label">地区</span>
+            <select class="filter-select">
+              <option>全部</option>
+              <option>广东省</option>
+              <option>广西省</option>
+              <option>海南省</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <span class="filter-label">品类</span>
+            <select class="filter-select">
+              <option>全部</option>
+              <option>水果</option>
+              <option>蔬菜</option>
+              <option>粮食</option>
+            </select>
+          </div>
+          <button class="btn btn-primary" style="margin-left: auto">查询</button>
+        </div>
+
+        <!-- 面积表格 -->
+        <div class="data-table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>序号</th>
+                <th>类型</th>
+                <th>品类</th>
+                <th>种植面积</th>
+                <th>省份</th>
+                <th>更新时间</th>
+                <th>数据来源</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>水果</td>
+                <td>水田</td>
+                <td>100公顷</td>
+                <td>广东省</td>
+                <td>2025/3/12</td>
+                <td>茂名市</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>水果</td>
+                <td>水田</td>
+                <td>100公顷</td>
+                <td>广东省</td>
+                <td>2025/3/12</td>
+                <td>茂名市</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>水果</td>
+                <td>水田</td>
+                <td>100公顷</td>
+                <td>广东省</td>
+                <td>2025/3/12</td>
+                <td>茂名市</td>
+              </tr>
+              <tr>
+                <td>4</td>
+                <td>水果</td>
+                <td>水田</td>
+                <td>100公顷</td>
+                <td>广东省</td>
+                <td>2025/3/12</td>
+                <td>茂名市</td>
+              </tr>
+              <tr>
+                <td>5</td>
+                <td>水果</td>
+                <td>水田</td>
+                <td>100公顷</td>
+                <td>广东省</td>
+                <td>2025/3/12</td>
+                <td>茂名市</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 产量预测部分 -->
+      <section id="yield-section" class="data-section" style="display: none">
+        <!-- 过滤栏 -->
+        <div class="filter-bar">
+          <div class="filter-group">
+            <span class="filter-label">地区</span>
+            <select class="filter-select">
+              <option>全部</option>
+              <option>广东省</option>
+              <option>广西省</option>
+              <option>海南省</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <span class="filter-label">品类</span>
+            <select class="filter-select">
+              <option>全部</option>
+              <option>水果</option>
+              <option>蔬菜</option>
+              <option>粮食</option>
+            </select>
+          </div>
+          <button class="btn btn-primary" style="margin-left: auto">查询</button>
+        </div>
+
+        <!-- 产量图表 -->
+        <div class="chart-container">
+          <div class="chart-header">
+            <h3 class="chart-title">产量预测趋势</h3>
+            <div class="chart-options">
+              <div class="chart-option active">季度</div>
+              <div class="chart-option">年度</div>
+            </div>
+          </div>
+          <canvas id="yieldChart" height="300"></canvas>
+        </div>
+      </section>
+    </main>
+
+    <!-- 页脚 -->
+
+    <script>
+      // 数据选项卡切换
+      function showDataSection(section) {
+        // 隐藏所有部分
+        document.querySelectorAll('.data-section').forEach((el) => {
+          el.style.display = 'none'
+        })
+
+        // 显示选中的部分
+        document.getElementById(section + '-section').style.display = 'block'
+
+        // 更新选项卡状态
+        document.querySelectorAll('.data-tab').forEach((tab) => {
+          tab.classList.remove('active')
+        })
+        event.target.classList.add('active')
+      }
+
+      // 图表选项切换
+      document.querySelectorAll('.chart-option').forEach((option) => {
+        option.addEventListener('click', function () {
+          document.querySelectorAll('.chart-option').forEach((opt) => {
+            opt.classList.remove('active')
+          })
+          this.classList.add('active')
+          // 这里可以添加图表数据更新的逻辑
+        })
+      })
+
+      // 初始化价格图表
+      const priceCtx = document.getElementById('priceChart').getContext('2d')
+      const priceChart = new Chart(priceCtx, {
+        type: 'line',
+        data: {
+          labels: ['2025-03-05', '2025-03-06', '2025-03-07', '2025-03-08', '2025-03-09', '2025-03-10', '2025-03-11'],
+          datasets: [
+            {
+              label: '哈密瓜价格 (元/斤)',
+              data: [3.8, 4.0, 4.2, 4.3, 4.4, 4.4, 4.3],
+              borderColor: '#389e0d',
+              backgroundColor: 'rgba(56, 158, 13, 0.1)',
+              borderWidth: 2,
+              tension: 0.1,
+              fill: true,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'top',
+            },
+            tooltip: {
+              mode: 'index',
+              intersect: false,
+            },
+          },
+          scales: {
+            y: {
+              beginAtZero: false,
+              min: 3,
+              max: 5,
+              ticks: {
+                stepSize: 0.5,
+              },
+            },
+          },
+        },
+      })
+
+      // 初始化产量图表
+      const yieldCtx = document.getElementById('yieldChart').getContext('2d')
+      const yieldChart = new Chart(yieldCtx, {
+        type: 'bar',
+        data: {
+          labels: ['第一季度', '第二季度', '第三季度', '第四季度'],
+          datasets: [
+            {
+              label: '预计产量 (吨)',
+              data: [1200, 1800, 2200, 1500],
+              backgroundColor: [
+                'rgba(56, 158, 13, 0.7)',
+                'rgba(56, 158, 13, 0.7)',
+                'rgba(56, 158, 13, 0.7)',
+                'rgba(56, 158, 13, 0.7)',
+              ],
+              borderColor: [
+                'rgba(56, 158, 13, 1)',
+                'rgba(56, 158, 13, 1)',
+                'rgba(56, 158, 13, 1)',
+                'rgba(56, 158, 13, 1)',
+              ],
+              borderWidth: 1,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'top',
+            },
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+            },
+          },
+        },
+      })
+    </script>
+  </body>
+</html>

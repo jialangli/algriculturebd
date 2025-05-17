@@ -1,5 +1,5 @@
 export default {
-  path: '/main/news/industryConsult',
-  name: 'industryConsult',
-  component: () => import('@/views/main/news/industryConsult.vue'),
+  path: '/main/news/industyConsult',
+  name: 'industrConsult',
+  component: () => import('@/views/main/news/IndustyConsult.vue'),
 }

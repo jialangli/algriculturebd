@@ -1,5 +1,5 @@
 export default {
-  path: '/about/policyDoc',
+  path: '/news/policyDoc',
   name: 'policyDoc',
-  component: () => import('@/views/about/PolicyDoc.vue'),
+  component: () => import('@/views/main/news/PolicyDoc.vue'), 
 }
