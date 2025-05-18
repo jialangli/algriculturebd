@@ -9,6 +9,7 @@ import AutoImport from 'unplugin-auto-import/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
+import vueDevTools from 'vite-plugin-vue-devtools'
 
 // 获取当前文件的URL并转换为路径
 const __filename = fileURLToPath(import.meta.url)
@@ -17,7 +18,12 @@ const __dirname = dirname(__filename)
 // API服务器地址
 const API_BASE_URL = 'http://47.115.160.54:28080'
 export default defineConfig({
-  plugins: [vue(), vueJsx(), UnoCSS(), AutoImport({
+  plugins: [vueDevTools({
+    componentInspector: {
+      toggleComboKey: 'control-shift',
+      launchEditor: 'code',
+    },
+  }), vue(), vueJsx(), UnoCSS(), AutoImport({
     resolvers: [ElementPlusResolver()],
   }), Components({
     resolvers: [ElementPlusResolver()],
@@ -25,6 +31,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': resolve(__dirname, 'src'),
+      '#': resolve(__dirname, 'types'),
     },
   },
   server: {

@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import type { TabsPaneContext } from 'element-plus'
 import { ElImage } from 'element-plus'
+import { ref } from 'vue'
 import bannerImg1 from '@/static/img/bannerImg/banner_1.png'
 import bannerImg2 from '@/static/img/bannerImg/banner_2.png'
 import bannerImg3 from '@/static/img/bannerImg/banner_3.png'
@@ -13,6 +15,12 @@ const bannerItem = [{
   img: bannerImg1,
   id: 3,
 }]
+
+const activeName = ref('first')
+
+const handleClick = (tab: TabsPaneContext, event: Event) => {
+  console.log(tab, event)
+}
 </script>
 
 <template>
@@ -43,6 +51,63 @@ const bannerItem = [{
         </RouterLink>
       </el-carousel>
     </section>
+
+    <div class="news-section w1200px relative mt-20 h200px">
+      <div class="absolute z-1 text-20px">
+        <span class="text-green-800">|</span>
+        新闻动态
+      </div>
+      <el-tabs v-model="activeName" class="b-cyan" @tab-click="handleClick">
+        <el-tab-pane label="User" name="first">
+          <div class="news-list">
+            <div class="news-card">
+              <img src="https://via.placeholder.com/400x300?text=新闻图片1" alt="新闻图片" class="news-image">
+              <div class="news-content">
+                <h3 class="news-title">
+                  全辖首个1到2个国家企业就业和就业服务体系综合服务
+                </h3>
+                <div class="news-date">
+                  2023-05-15
+                </div>
+              </div>
+            </div>
+
+            <div class="news-card">
+              <img src="https://via.placeholder.com/400x300?text=新闻图片2" alt="新闻图片" class="news-image">
+              <div class="news-content">
+                <h3 class="news-title">
+                  三亚南山港推出"一站式"海选科技服务
+                </h3>
+                <div class="news-date">
+                  2023-05-10
+                </div>
+              </div>
+            </div>
+
+            <div class="news-card">
+              <img src="https://via.placeholder.com/400x300?text=新闻图片3" alt="新闻图片" class="news-image">
+              <div class="news-content">
+                <h3 class="news-title">
+                  全国人大代表、中国科学院院士创新：加强粮食类农产品品牌建设
+                </h3>
+                <div class="news-date">
+                  2023-05-05
+                </div>
+              </div>
+            </div>
+          </div>
+        </el-tab-pane>
+        <el-tab-pane label="Config" name="second">
+          Config
+        </el-tab-pane>
+        <el-tab-pane label="Role" name="third" style="color: red;">
+          Role
+        </el-tab-pane>
+        <el-tab-pane label="Task" name="fourth">
+          Task
+        </el-tab-pane>
+      </el-tabs>
+    </div>
 
     <!-- 新闻动态 -->
     <section class="news-section">
@@ -196,6 +261,23 @@ const bannerItem = [{
 </template>
 
 <style scoped>
+/* tabs */
+
+::v-deep(.el-tabs__nav-scroll) {
+  display: flex;
+  height: 50px;
+  align-items: center;
+  justify-content: end;
+  .el-tabs__item {
+    font-size: large;
+  }
+}
+.demo-tabs > .el-tabs__content {
+  padding: 32px;
+  color: #6b778c;
+  font-size: 32px;
+  font-weight: 600;
+}
 /* 搜索栏 */
 .search-bar {
   /* background-color: #389e0d; */

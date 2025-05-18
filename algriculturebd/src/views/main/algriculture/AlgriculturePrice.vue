@@ -1,36 +1,17 @@
 <script setup lang='ts'>
-import * as echarts from 'echarts'
-import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { useTemplateRef } from 'vue'
+import { useEcharts } from '@/hooks/useEcharts'
+import { createBarChart } from '@/views/charts/barChar'
 import Selection from './components/Selection.vue'
 
-const chartRef = ref(null) // 获取 DOM 引用
-// 基于准备好的dom，初始化echarts实例
-const myChart = echarts.init(document.querySelector('.chart-container'))
-
-// 绘制图表
-myChart.setOption({
-  title: {
-    text: 'ECharts 入门示例',
-  },
-  tooltip: {},
-  xAxis: {
-    data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子'],
-  },
-  yAxis: {},
-  series: [
-    {
-      name: '销量',
-      type: 'bar',
-      data: [5, 20, 36, 10, 10, 20],
-    },
-  ],
-})
+const barChart = useTemplateRef('barChart')
+useEcharts(barChart, createBarChart())
 </script>
 
 <template>
   <Selection />
   <!-- 价格图表 -->
-  <div class="chart-container w300 h300" />
+  <div ref="barChart" class="chart-container w300px h300px" />
 
   <!-- 价格表格 -->
   <div class="data-table-container">
