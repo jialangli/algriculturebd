@@ -1,4 +1,13 @@
 {
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "src/*",
+      ],
+      "#/*":["./types/*"]
+    }
+  },
   "include": [
     "env.d.ts",
     "src/**/*",
@@ -6,13 +15,5 @@
   ],
   "exclude": [
     "src/**/__tests__/*"
-  ],
-  "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "@/*": [
-        "src/*"
-      ]
-    }
-  }
+  ]
 }

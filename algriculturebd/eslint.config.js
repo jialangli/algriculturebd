@@ -8,6 +8,6 @@ export default antfu({
   rules: {
     'no-console': 'off',
     'ts/no-use-before-define': 'off',
-    // 'style/max-statements-per-line': 'off',
+    'style/max-statements-per-line': 'off',
   },
 })

@@ -1,364 +1,272 @@
 <script setup lang="ts">
+import { ref, useTemplateRef } from 'vue'
+import router from '@/router'
 
+const navMenu = useTemplateRef('navMenu')
+const navItem = ref([
+  { name: '首页', path: '/main/index' },
+  { name: '农产品产供销数据', path: '/main/algriculture' },
+  { name: '关于我们', path: '/main/about' },
+])
+const activeIndex = ref(0)
+function navAvtive(index: number) {
+  activeIndex.value = index
+}
 </script>
 
 <template>
-  <router-view />
-  <!-- 搜索栏 -->
-  <section class="search-bar">
-    <div class="container">
-      <div class="search-container">
-        <input type="text" class="search-input" placeholder="搜索农产品、供应商、价格...">
-        <button class="search-btn">
-          搜索
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <!-- 主要内容 -->
-  <main class="container">
-    <!-- 轮播图/横幅 -->
-    <section class="banner">
-      农产品产供销一体化服务平台
-    </section>
-
-    <!-- 新闻动态 -->
-    <section class="news-section">
-      <div class="news-header">
-        <h2 class="section-title">
-          新闻动态
-        </h2>
-        <div class="news-tabs">
-          <div class="news-tab active">
-            全部
-          </div>
-          <div class="news-tab">
-            政策文件
-          </div>
-          <div class="news-tab">
-            行业资讯
-          </div>
+  <div>
+    <header class="navbar">
+      <div class="container navbar-container">
+        <div class="logo">
+          农产品产供销数据平台
+        </div>
+        <ul v-for="item, index in navItem" ref="navMenu" :key="item.path" class="nav-menu">
+          <RouterLink :to="item.path">
+            <li class="nav-item cursor-pointer" :class="{ active: activeIndex === index }" @click="navAvtive(index)">
+              {{ item.name }}
+            </li>
+          </RouterLink>
+        </ul>
+        <div class="auth-buttons">
+          <button class="btn btn-outline">
+            登录
+          </button>
+          <button class="btn btn-primary">
+            注册
+          </button>
         </div>
       </div>
-
-      <div class="news-list">
-        <div class="news-card">
-          <img src="https://via.placeholder.com/400x300?text=新闻图片1" alt="新闻图片" class="news-image">
-          <div class="news-content">
-            <h3 class="news-title">
-              全辖首个1到2个国家企业就业和就业服务体系综合服务
-            </h3>
-            <div class="news-date">
-              2023-05-15
-            </div>
-          </div>
+    </header>
+    <router-view />
+    <!-- 页脚 -->
+    <footer class="footer">
+      <div class="container footer-container">
+        <div class="footer-column">
+          <h3>关于我们</h3>
+          <ul class="footer-links">
+            <li><a href="#">平台简介</a></li>
+            <li><a href="#">发展历程</a></li>
+            <li><a href="#">团队介绍</a></li>
+            <li><a href="#">联系我们</a></li>
+          </ul>
         </div>
 
-        <div class="news-card">
-          <img src="https://via.placeholder.com/400x300?text=新闻图片2" alt="新闻图片" class="news-image">
-          <div class="news-content">
-            <h3 class="news-title">
-              三亚南山港推出"一站式"海选科技服务
-            </h3>
-            <div class="news-date">
-              2023-05-10
-            </div>
-          </div>
+        <div class="footer-column">
+          <h3>服务内容</h3>
+          <ul class="footer-links">
+            <li><a href="#">农产品供应</a></li>
+            <li><a href="#">价格行情</a></li>
+            <li><a href="#">数据服务</a></li>
+          </ul>
         </div>
 
-        <div class="news-card">
-          <img src="https://via.placeholder.com/400x300?text=新闻图片3" alt="新闻图片" class="news-image">
-          <div class="news-content">
-            <h3 class="news-title">
-              全国人大代表、中国科学院院士创新：加强粮食类农产品品牌建设
-            </h3>
-            <div class="news-date">
-              2023-05-05
-            </div>
-          </div>
+        <div class="footer-column">
+          <h3>帮助中心</h3>
+          <ul class="footer-links">
+            <li><a href="#">常见问题</a></li>
+            <li><a href="#">使用指南</a></li>
+            <li><a href="#">API接口</a></li>
+            <li><a href="#">意见反馈</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h3>联系我们</h3>
+          <ul class="footer-links">
+            <li>电话: 400-123-4567</li>
+            <li>邮箱: service@ncp.com</li>
+            <li>地址: 广东省茂名市茂南区</li>
+            <li>
+              <div style="margin-top: 10px;">
+                <span style="margin-right: 10px; font-size: 20px;">📱</span>
+                <span style="margin-right: 10px; font-size: 20px;">💬</span>
+                <span style="font-size: 20px;">📧</span>
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
 
-      <div class="pagination">
-        <div class="page-item active">
-          1
-        </div>
-        <div class="page-item">
-          2
-        </div>
-        <div class="page-item">
-          3
-        </div>
-        <div class="page-item">
-          4
-        </div>
-        <div class="page-item">
-          5
-        </div>
-        <div class="page-item">
-          6
-        </div>
-        <div class="page-item">
-          ...
-        </div>
-        <div class="page-item">
-          10
-        </div>
-        <div class="page-item">
-          >
-        </div>
+      <div class="container copyright">
+        © 2023 农产品产供销数据平台 版权所有
       </div>
-    </section>
-
-    <!-- 价格行情 -->
-    <section class="price-trend">
-      <div class="section-title">
-        农产品价格行情
-      </div>
-
-      <table class="price-table">
-        <thead>
-          <tr>
-            <th>品类</th>
-            <th>价格(元/斤)</th>
-            <th>城市</th>
-            <th>升/降</th>
-            <th>走势</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>菠菜</td>
-            <td>1.6</td>
-            <td>茂名</td>
-            <td class="trend-up">
-              ↑4.11%
-            </td>
-            <td>📈</td>
-          </tr>
-          <tr>
-            <td>胡萝卜</td>
-            <td>1.6</td>
-            <td>茂名</td>
-            <td class="trend-up">
-              ↑3.11%
-            </td>
-            <td>📈</td>
-          </tr>
-          <tr>
-            <td>白菜</td>
-            <td>1.2</td>
-            <td>茂名</td>
-            <td class="trend-down">
-              ↓2.45%
-            </td>
-            <td>📉</td>
-          </tr>
-          <tr>
-            <td>土豆</td>
-            <td>2.1</td>
-            <td>茂名</td>
-            <td class="trend-up">
-              ↑1.78%
-            </td>
-            <td>📈</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div class="view-more">
-        <a href="#" class="btn btn-outline">查看更多</a>
-      </div>
-    </section>
-  </main>
+    </footer>
+  </div>
 </template>
 
-<style scoped>
-/* 搜索栏 */
-.search-bar {
-  /* background-color: #389e0d; */
-  padding: 15px 0;
+<style>
+        /* 全局样式 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
 }
 
-.search-container {
-  display: flex;
-  max-width: 800px;
+body {
+  background-color: #f8f8f8;
+  color: #333;
+  line-height: 1.6;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+.container {
+  max-width: 1200px;
   margin: 0 auto;
+  padding: 0 15px;
 }
 
-.search-input {
-  flex: 1;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 4px 0 0 4px;
-  font-size: 16px;
-  outline: none;
-}
-
-.search-btn {
-  background-color: #52c41a;
-  color: white;
-  border: none;
-  padding: 0 20px;
-  border-radius: 0 4px 4px 0;
+.btn {
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 4px;
   cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s;
+  transition: all 0.3s;
 }
 
-.search-btn:hover {
-  background-color: #73d13d;
+.btn-primary {
+  background-color: #389e0d;
+  color: white;
+  border: 1px solid #389e0d;
 }
 
-/* 轮播图/横幅 */
-.banner {
-  height: 300px;
-  background-color: #d9f7be;
-  margin-bottom: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.btn-primary:hover {
+  /* background-color: #52c41a; */
+  border-color: #52c41a;
+}
+
+.btn-outline {
+  background-color: transparent;
   color: #389e0d;
+  border: 1px solid #389e0d;
+}
+
+.btn-outline:hover {
+  background-color: #f6ffed;
+}
+
+.section-title {
   font-size: 24px;
-  font-weight: bold;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)),
-    url('https://via.placeholder.com/1200x300?text=农产品产供销数据平台');
-  background-size: cover;
-  background-position: center;
+  font-weight: 500;
+  margin-bottom: 20px;
+  color: #333;
+  position: relative;
+  padding-left: 15px;
 }
 
-/* 新闻动态 */
-.news-section {
-  margin-bottom: 40px;
+.section-title::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 5px;
+  height: 18px;
+  width: 4px;
+  background-color: #389e0d;
+  border-radius: 2px;
+}
+/* 导航栏 */
+.navbar {
+  background-color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
-.news-header {
+.navbar-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  height: 60px;
 }
 
-.news-tabs {
-  display: flex;
-}
-
-.news-tab {
-  padding: 5px 15px;
-  cursor: pointer;
-}
-
-.news-tab.active {
+.logo {
+  font-size: 20px;
+  font-weight: bold;
   color: #389e0d;
-  border-bottom: 2px solid #389e0d;
 }
 
-.news-list {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+.nav-menu {
+  display: flex;
 }
 
-.news-card {
-  background-color: white;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  transition:
-    transform 0.3s,
-    box-shadow 0.3s;
-}
-
-.news-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-}
-
-.news-image {
-  height: 160px;
-  width: 100%;
-  object-fit: cover;
-}
-
-.news-content {
-  padding: 15px;
-}
-
-.news-title {
-  font-size: 16px;
+.nav-item {
+  margin-left: 30px;
+  position: relative;
+  padding: 10px 0;
   font-weight: 500;
-  margin-bottom: 10px;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
 }
 
-.news-date {
-  color: #999;
-  font-size: 12px;
+.nav-item.active {
+  color: #389e0d;
 }
 
-.pagination {
-  display: flex;
-  justify-content: center;
-  margin-top: 30px;
-}
-
-.page-item {
-  margin: 0 5px;
-  width: 36px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.page-item.active {
+.nav-item.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
   background-color: #389e0d;
+}
+
+.auth-buttons .btn {
+  margin-left: 10px;
+}
+/* 页脚 */
+.footer {
+  background-color: #333;
   color: white;
+  padding: 40px 0 20px;
 }
 
-/* 价格行情 */
-.price-trend {
-  margin-bottom: 40px;
+.footer-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
 }
 
-.price-table {
-  width: 100%;
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  border-collapse: collapse;
-  overflow: hidden;
+.footer-column h3 {
+  font-size: 18px;
+  margin-bottom: 20px;
+  position: relative;
+  padding-bottom: 10px;
 }
 
-.price-table th,
-.price-table td {
-  padding: 12px 15px;
-  text-align: left;
-  border-bottom: 1px solid #f0f0f0;
+.footer-column h3::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 40px;
+  height: 2px;
+  background-color: #389e0d;
 }
 
-.price-table th {
-  background-color: #fafafa;
-  font-weight: 500;
+.footer-links li {
+  margin-bottom: 10px;
 }
 
-.price-table tr:last-child td {
-  border-bottom: none;
+.footer-links a:hover {
+  color: #389e0d;
 }
 
-.trend-up {
-  color: #f5222d;
-}
-
-.trend-down {
-  color: #52c41a;
+.copyright {
+  text-align: center;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #444;
+  color: #999;
+  font-size: 14px;
 }
 </style>

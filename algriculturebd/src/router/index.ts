@@ -1,51 +1,53 @@
 import type { RouteRecordRaw } from 'vue-router'
 import { createRouter, createWebHistory } from 'vue-router'
+import news from './main/news/news'
 
 const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
       path: '/',
-      redirect: '/main',
+      redirect: '/main/index',
     },
     {
       path: '/main',
       name: 'main',
-      component: () => import('@/views/main/main.vue'),
-    },
-    {
-      path: '/about',
-      name: 'about',
-      component: () => import('@/views/main/about/about.vue'),
-    },
-    {
-      path: '/news/news',
-      name: 'news',
-      component: () => import('@/views/main/news/news.vue'),
+      redirect: '/main/index',
+      component: () => import('@/views/main/Main.vue'),
       children: [
-
-        { path: 'industyConsult', name: 'industrConsult', component: () => import('@/views/main/news/IndustyConsult.vue') },
-
+        { path: 'index', name: 'index', component: () => import('@/views/main/index/Index.vue') },
         {
-          path: 'policyDoc',
-          name: 'policyDoc',
-          component: () => import('@/views/main/news/PolicyDoc.vue'),
+          path: 'about',
+          name: 'about',
+          component: () => import('@/views/main/about/about.vue'),
         },
+        {
+          path: 'news',
+          redirect: '/main/news/industyConsult',
+          children: [
+            { path: 'news', name: 'news', component: () => import('@/views/main/news/news.vue') },
+            { path: 'industyConsult', name: 'industrConsult', component: () => import('@/views/main/news/IndustyConsult.vue') },
+            {
+              path: 'policyDoc',
+              name: 'policyDoc',
+              component: () => import('@/views/main/news/PolicyDoc.vue'),
+            },
+          ],
+        },
+        {
+          path: 'algriculture',
+          name: 'Algriculture',
+          redirect: '/main/algriculture/algriculturePrice',
+          component: () => import('@/views/main/algriculture/Index.vue'),
+          children: [
+            { path: 'algriculturePrice', name: 'algriculturePrice', component: () => import('@/views/main/algriculture/AlgriculturePrice.vue') },
+            { path: 'plantingArea', name: 'PlantingArea', component: () => import('@/views/main/algriculture/PlantingArea.vue') },
+            { path: 'yieldPredict', name: 'YieldPredict', component: () => import('@/views/main/algriculture/YieldPrediction.vue') },
+          ],
+        },
+
       ],
     },
-
-    {
-      path: '/algriculture',
-      name: 'Algriculture',
-      redirect: '/algriculture/algriculturePrice',
-      component: () => import('@/views/main/algriculture/Main.vue'),
-      children: [
-        { path: 'algriculturePrice', name: 'algriculturePrice', component: () => import('@/views/main/algriculture/AlgriculturePrice.vue') },
-        { path: 'plantingArea', name: 'PlantingArea', component: () => import('@/views/main/algriculture/PlantingArea.vue') },
-        { path: 'yieldPredict', name: 'YieldPredict', component: () => import('@/views/main/algriculture/YieldPrediction.vue') },
-      ],
-    },
-
     {
       path: '/login',
       name: 'login',

@@ -5,15 +5,15 @@ import { RouterLink, RouterView } from 'vue-router'
 
 const tabsItems = [
   {
-    path: '/algriculture/algriculturePrice',
+    path: 'algriculturePrice',
     name: '价格行情',
   },
   {
-    path: '/algriculture/plantingArea',
+    path: 'plantingArea',
     name: '种植面积',
   },
   {
-    path: '/algriculture/yieldPredict',
+    path: 'yieldPredict',
     name: '产量预测',
   },
 ]
