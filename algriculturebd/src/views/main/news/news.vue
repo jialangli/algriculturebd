@@ -1,426 +1,228 @@
 <script setup lang='ts'>
+import { ElMessage } from 'element-plus'
+import { computed, onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
+import img from '@/static/img/bannerImg/banner_new.webp'
 
+interface NewsItem {
+  id: number
+  title: string
+  date: string
+  content: string
+  imageUrl: string
+  category: string
+  views: number
+}
+
+const newsList = ref<NewsItem[]>([
+  {
+    id: 1,
+    title: '茂名荔枝产业迎来丰收季，预计产量创新高',
+    date: '2024-03-20',
+    content: '茂名市荔枝种植面积达100万亩，今年预计产量将突破50万吨，创历史新高。当地政府积极推动荔枝产业升级，助力农民增收。通过引进新品种、推广新技术，茂名荔枝品质不断提升，市场竞争力显著增强。',
+    imageUrl: img,
+    category: '产业动态',
+    views: 1250,
+  },
+  {
+    id: 2,
+    title: '茂名香蕉产业转型升级，打造智慧农业示范区',
+    date: '2024-03-18',
+    content: '茂名市启动香蕉产业智慧化改造项目，引入物联网技术，实现精准种植和智能管理，提升香蕉品质和产量。项目总投资达5000万元，预计带动周边农户增收30%以上。',
+    imageUrl: img,
+    category: '科技创新',
+    views: 980,
+  },
+  {
+    id: 3,
+    title: '茂名农产品电商平台正式上线，助力农产品销售',
+    date: '2024-03-15',
+    content: '茂名市农产品电商平台正式运营，整合全市优质农产品资源，打通线上线下销售渠道，为农民提供便捷的销售平台。平台上线首月交易额突破1000万元，带动5000户农户增收。',
+    imageUrl: img,
+    category: '电商发展',
+    views: 1560,
+  },
+  {
+    id: 4,
+    title: '茂名举办首届农产品品牌节，展示特色农产品',
+    date: '2024-03-10',
+    content: '茂名市举办首届农产品品牌节，集中展示荔枝、香蕉、龙眼等特色农产品。活动期间签订产销合作协议20余份，意向金额达2亿元。',
+    imageUrl: img,
+    category: '品牌建设',
+    views: 890,
+  },
+])
+
+const currentPage = ref(1)
+const pageSize = ref(5)
+const searchKeyword = ref('')
+const selectedCategory = ref('全部')
+
+const categories = ['全部', '产业动态', '科技创新', '电商发展', '品牌建设']
+
+const filteredNews = computed(() => {
+  return newsList.value.filter((news) => {
+    const matchKeyword = news.title.toLowerCase().includes(searchKeyword.value.toLowerCase())
+      || news.content.toLowerCase().includes(searchKeyword.value.toLowerCase())
+    const matchCategory = selectedCategory.value === '全部' || news.category === selectedCategory.value
+    return matchKeyword && matchCategory
+  })
+})
+
+const paginatedNews = computed(() => {
+  const start = (currentPage.value - 1) * pageSize.value
+  const end = start + pageSize.value
+  return filteredNews.value.slice(start, end)
+})
+
+const totalPages = computed(() => {
+  return Math.ceil(filteredNews.value.length / pageSize.value)
+})
+
+const handlePageChange = (page: number) => {
+  currentPage.value = page
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
+const handleSearch = () => {
+  currentPage.value = 1
+  ElMessage.success('搜索完成')
+}
+
+const handleCategoryChange = () => {
+  currentPage.value = 1
+}
+// 跳转动态
+const router = useRouter()
+const handleDetialClick = (params: string) => {
+  router.push({
+    name: 'detail',
+    params: { id: params },
+  })
+}
 </script>
 
 <template>
-  <!-- 导航栏 -->
-  <header class="navbar">
-    <div class="container navbar-container">
-      <div class="logo">
-        <span class="logo-icon">🌾</span>
-        <span>农产品产供销数据平台</span>
-      </div>
-      <ul class="nav-menu">
-        <li class="nav-item">
-          首页
-        </li>
-        <li class="nav-item active">
-          农产品产供销数据
-        </li>
-        <li class="nav-item">
-          关于我们
-        </li>
-      </ul>
-      <div class="auth-buttons">
-        <button class="btn btn-outline">
-          登录
-        </button>
-        <button class="btn btn-primary">
-          注册
-        </button>
-      </div>
-    </div>
-  </header>
+  <div class="news-container p-6">
+    <h1 class="text-3xl font-bold text-center mb-8">
+      茂名农产品新闻
+    </h1>
 
-  <!-- 主要内容 -->
-  <main class="container">
-    <!-- 数据选项卡 -->
-    <div class="data-tabs">
-      <div class="data-tab active" onclick="showDataSection('price')">
-        价格行情
-      </div>
-      <div class="data-tab" onclick="showDataSection('area')">
-        种植面积
-      </div>
-      <div class="data-tab" onclick="showDataSection('yield')">
-        产量预测
-      </div>
+    <!-- 搜索和筛选区域 -->
+    <div class="search-filter mb-6 flex flex-col md:flex-row gap-4">
+      <el-input
+        v-model="searchKeyword"
+        placeholder="搜索新闻..."
+        class="w-full md:w-64"
+        @keyup.enter="handleSearch"
+      >
+        <template #append>
+          <el-button @click="handleSearch">
+            <el-icon><Search /></el-icon>
+          </el-button>
+        </template>
+      </el-input>
+
+      <el-select
+        v-model="selectedCategory"
+        placeholder="选择分类"
+        class="w-full md:w-40"
+        @change="handleCategoryChange"
+      >
+        <el-option
+          v-for="category in categories"
+          :key="category"
+          :label="category"
+          :value="category"
+        />
+      </el-select>
     </div>
 
-    <!-- 价格行情部分 -->
-    <section id="price-section" class="data-section">
-      <!-- 过滤栏 -->
-      <div class="filter-bar">
-        <div class="filter-group">
-          <span class="filter-label">地区</span>
-          <select class="filter-select">
-            <option>全部</option>
-            <option>广东省</option>
-            <option>广西省</option>
-            <option>海南省</option>
-          </select>
-        </div>
-        <div class="filter-group">
-          <span class="filter-label">品类</span>
-          <select class="filter-select">
-            <option>全部</option>
-            <option>水果</option>
-            <option>蔬菜</option>
-            <option>粮食</option>
-          </select>
-        </div>
-        <button class="btn btn-primary" style="margin-left: auto">
-          查询
-        </button>
-      </div>
+    <!-- 新闻列表 -->
+    <div class="news-list space-y-6">
+      <div
 
-      <!-- 价格图表 -->
-      <div class="chart-container">
-        <div class="chart-header">
-          <h3 class="chart-title">
-            变化趋势
-          </h3>
-          <div class="chart-options">
-            <div class="chart-option active">
-              近7天
+        v-for="news in paginatedNews"
+        :key="news.id"
+        class="news-item bg-white rounded-lg shadow-md p-6"
+        @click="handleDetialClick('2') "
+      >
+        <div class="flex flex-col md:flex-row gap-6">
+          <div class="news-image w-full md:w-1/3">
+            <img
+              :src="news.imageUrl"
+              :alt="news.title"
+              class="w-full h-48 object-cover rounded-lg"
+            >
+          </div>
+          <div class="news-content flex-1">
+            <div class="flex items-center gap-2 mb-2">
+              <el-tag size="small" type="success">
+                {{ news.category }}
+              </el-tag>
+              <span class="text-gray-500 text-sm">{{ news.views }} 阅读</span>
             </div>
-            <div class="chart-option">
-              近30天
-            </div>
-            <div class="chart-option">
-              近半年
-            </div>
+            <h2 class="text-xl font-semibold mb-2">
+              {{ news.title }}
+            </h2>
+            <p class="text-gray-500 mb-4">
+              {{ news.date }}
+            </p>
+            <p class="text-gray-700">
+              {{ news.content }}
+            </p>
           </div>
         </div>
-        <canvas id="priceChart" height="300" />
       </div>
+    </div>
 
-      <!-- 价格表格 -->
-      <div class="data-table-container">
-        <table class="data-table">
-          <thead>
-            <tr>
-              <th>序号</th>
-              <th>类型</th>
-              <th>品名</th>
-              <th>价格</th>
-              <th>省份</th>
-              <th>数据时间</th>
-              <th>数据来源</th>
-              <th>地区/市场</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>水果</td>
-              <td>哈密瓜</td>
-              <td>4.4元/斤</td>
-              <td>广东省</td>
-              <td>2025/3/12</td>
-              <td>全国农批布</td>
-              <td>茂名市xx农贸市场</td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>水果</td>
-              <td>哈密瓜</td>
-              <td>4.4元/斤</td>
-              <td>广东省</td>
-              <td>2025/3/12</td>
-              <td>全国农批布</td>
-              <td>茂名市xx农贸市场</td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>水果</td>
-              <td>哈密瓜</td>
-              <td>4.4元/斤</td>
-              <td>广东省</td>
-              <td>2025/3/12</td>
-              <td>全国农批布</td>
-              <td>茂名市xx农贸市场</td>
-            </tr>
-            <tr>
-              <td>4</td>
-              <td>水果</td>
-              <td>哈密瓜</td>
-              <td>4.4元/斤</td>
-              <td>广东省</td>
-              <td>2025/3/12</td>
-              <td>全国农批布</td>
-              <td>茂名市xx农贸市场</td>
-            </tr>
-            <tr>
-              <td>5</td>
-              <td>水果</td>
-              <td>哈密瓜</td>
-              <td>4.4元/斤</td>
-              <td>广东省</td>
-              <td>2025/3/12</td>
-              <td>全国农批布</td>
-              <td>茂名市xx农贸市场</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- 种植面积部分 -->
-    <section id="area-section" class="data-section" style="display: none">
-      <!-- 过滤栏 -->
-      <div class="filter-bar">
-        <div class="filter-group">
-          <span class="filter-label">地区</span>
-          <select class="filter-select">
-            <option>全部</option>
-            <option>广东省</option>
-            <option>广西省</option>
-            <option>海南省</option>
-          </select>
-        </div>
-        <div class="filter-group">
-          <span class="filter-label">品类</span>
-          <select class="filter-select">
-            <option>全部</option>
-            <option>水果</option>
-            <option>蔬菜</option>
-            <option>粮食</option>
-          </select>
-        </div>
-        <button class="btn btn-primary" style="margin-left: auto">
-          查询
-        </button>
-      </div>
-
-      <!-- 面积表格 -->
-      <div class="data-table-container">
-        <table class="data-table">
-          <thead>
-            <tr>
-              <th>序号</th>
-              <th>类型</th>
-              <th>品类</th>
-              <th>种植面积</th>
-              <th>省份</th>
-              <th>更新时间</th>
-              <th>数据来源</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>水果</td>
-              <td>水田</td>
-              <td>100公顷</td>
-              <td>广东省</td>
-              <td>2025/3/12</td>
-              <td>茂名市</td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>水果</td>
-              <td>水田</td>
-              <td>100公顷</td>
-              <td>广东省</td>
-              <td>2025/3/12</td>
-              <td>茂名市</td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>水果</td>
-              <td>水田</td>
-              <td>100公顷</td>
-              <td>广东省</td>
-              <td>2025/3/12</td>
-              <td>茂名市</td>
-            </tr>
-            <tr>
-              <td>4</td>
-              <td>水果</td>
-              <td>水田</td>
-              <td>100公顷</td>
-              <td>广东省</td>
-              <td>2025/3/12</td>
-              <td>茂名市</td>
-            </tr>
-            <tr>
-              <td>5</td>
-              <td>水果</td>
-              <td>水田</td>
-              <td>100公顷</td>
-              <td>广东省</td>
-              <td>2025/3/12</td>
-              <td>茂名市</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- 产量预测部分 -->
-    <section id="yield-section" class="data-section" style="display: none">
-      <!-- 过滤栏 -->
-      <div class="filter-bar">
-        <div class="filter-group">
-          <span class="filter-label">地区</span>
-          <select class="filter-select">
-            <option>全部</option>
-            <option>广东省</option>
-            <option>广西省</option>
-            <option>海南省</option>
-          </select>
-        </div>
-        <div class="filter-group">
-          <span class="filter-label">品类</span>
-          <select class="filter-select">
-            <option>全部</option>
-            <option>水果</option>
-            <option>蔬菜</option>
-            <option>粮食</option>
-          </select>
-        </div>
-        <button class="btn btn-primary" style="margin-left: auto">
-          查询
-        </button>
-      </div>
-
-      <!-- 产量图表 -->
-      <div class="chart-container">
-        <div class="chart-header">
-          <h3 class="chart-title">
-            产量预测趋势
-          </h3>
-          <div class="chart-options">
-            <div class="chart-option active">
-              季度
-            </div>
-            <div class="chart-option">
-              年度
-            </div>
-          </div>
-        </div>
-        <canvas id="yieldChart" height="300" />
-      </div>
-    </section>
-  </main>
-
-  <!-- 页脚 -->
-
-  <script>
-    // 数据选项卡切换
-    function showDataSection(section) {
-    // 隐藏所有部分
-    document.querySelectorAll('.data-section').forEach((el) => {
-    el.style.display = 'none'
-    })
-
-    // 显示选中的部分
-    document.getElementById(section + '-section').style.display = 'block'
-
-    // 更新选项卡状态
-    document.querySelectorAll('.data-tab').forEach((tab) => {
-    tab.classList.remove('active')
-    })
-    event.target.classList.add('active')
-    }
-
-    // 图表选项切换
-    document.querySelectorAll('.chart-option').forEach((option) => {
-    option.addEventListener('click', function () {
-    document.querySelectorAll('.chart-option').forEach((opt) => {
-    opt.classList.remove('active')
-    })
-    this.classList.add('active')
-    // 这里可以添加图表数据更新的逻辑
-    })
-    })
-
-    // 初始化价格图表
-    const priceCtx = document.getElementById('priceChart').getContext('2d')
-    const priceChart = new Chart(priceCtx, {
-    type: 'line',
-    data: {
-    labels: ['2025-03-05', '2025-03-06', '2025-03-07', '2025-03-08', '2025-03-09', '2025-03-10', '2025-03-11'],
-    datasets: [
-    {
-    label: '哈密瓜价格 (元/斤)',
-    data: [3.8, 4.0, 4.2, 4.3, 4.4, 4.4, 4.3],
-    borderColor: '#389e0d',
-    backgroundColor: 'rgba(56, 158, 13, 0.1)',
-    borderWidth: 2,
-    tension: 0.1,
-    fill: true,
-    },
-    ],
-    },
-    options: {
-    responsive: true,
-    plugins: {
-    legend: {
-    position: 'top',
-    },
-    tooltip: {
-    mode: 'index',
-    intersect: false,
-    },
-    },
-    scales: {
-    y: {
-    beginAtZero: false,
-    min: 3,
-    max: 5,
-    ticks: {
-    stepSize: 0.5,
-    },
-    },
-    },
-    },
-    })
-
-    // 初始化产量图表
-    const yieldCtx = document.getElementById('yieldChart').getContext('2d')
-    const yieldChart = new Chart(yieldCtx, {
-    type: 'bar',
-    data: {
-    labels: ['第一季度', '第二季度', '第三季度', '第四季度'],
-    datasets: [
-    {
-    label: '预计产量 (吨)',
-    data: [1200, 1800, 2200, 1500],
-    backgroundColor: [
-    'rgba(56, 158, 13, 0.7)',
-    'rgba(56, 158, 13, 0.7)',
-    'rgba(56, 158, 13, 0.7)',
-    'rgba(56, 158, 13, 0.7)',
-    ],
-    borderColor: [
-    'rgba(56, 158, 13, 1)',
-    'rgba(56, 158, 13, 1)',
-    'rgba(56, 158, 13, 1)',
-    'rgba(56, 158, 13, 1)',
-    ],
-    borderWidth: 1,
-    },
-    ],
-    },
-    options: {
-    responsive: true,
-    plugins: {
-    legend: {
-    position: 'top',
-    },
-    },
-    scales: {
-    y: {
-    beginAtZero: true,
-    },
-    },
-    },
-    })
-  </script>
+    <!-- 分页 -->
+    <div class="pagination-container mt-8 flex justify-center">
+      <el-pagination
+        v-model:current-page="currentPage"
+        :page-size="pageSize"
+        :total="filteredNews.length"
+        :page-sizes="[5, 10, 20]"
+        layout="total, sizes, prev, pager, next"
+        @size-change="pageSize = $event"
+        @current-change="handlePageChange"
+      />
+    </div>
+  </div>
 </template>
 
-<style>
+<style scoped>
+.news-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
 
+.news-item {
+  transition: transform 0.3s ease;
+}
+
+.news-item:hover {
+  transform: translateY(-5px);
+}
+
+.news-image img {
+  transition: transform 0.3s ease;
+}
+
+.news-image img:hover {
+  transform: scale(1.05);
+}
+
+:deep(.el-pagination) {
+  justify-content: center;
+  margin-top: 20px;
+}
+
+:deep(.el-input__wrapper) {
+  box-shadow: 0 0 0 1px #dcdfe6 inset;
+}
+
+:deep(.el-input__wrapper:hover) {
+  box-shadow: 0 0 0 1px #409eff inset;
+}
 </style>

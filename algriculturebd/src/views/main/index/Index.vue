@@ -2,17 +2,19 @@
 import type { TabsPaneContext } from 'element-plus'
 import { ElImage } from 'element-plus'
 import { computed, ref } from 'vue'
+import { RouterLink } from 'vue-router'
 import bannerImg1 from '@/static/img/bannerImg/banner_1.png'
 import bannerImg2 from '@/static/img/bannerImg/banner_2.png'
-import bannerImg3 from '@/static/img/bannerImg/banner_3.png'
+import bannerImg3 from '@/static/img/bannerImg/banner_new.webp'
+
 // 轮播图
 const bannerItem = [{
   img: bannerImg3,
   id: 1,
 }, {
-  img: bannerImg2,
+  img: bannerImg3,
 }, {
-  img: bannerImg1,
+  img: bannerImg3,
   id: 3,
 }]
 
@@ -38,12 +40,12 @@ const data = ref([
   // 更多数据...
 ])
 const newsList = ref([
-  { title: '全辖首个1到2个国家企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg1 },
-  { title: '全辖首个1到2个国家企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg1 },
-  { title: '全辖首个1到2个国家企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg1 },
-  { title: '全辖首个1到2个国家企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg1 },
-  { title: '全辖首个1到2个国家企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg1 },
-  { title: '全辖首个1到2个国家企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg1 },
+  { title: '全辖首个1到2个国家企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg3 },
+  { title: '全辖首个1到2个国家企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg3 },
+  { title: '全辖首个1到2个国家企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg3 },
+  { title: '全辖首个1到2个国家企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg3 },
+  { title: '全辖首个1到2个国家企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg3 },
+  { title: '全辖首个1到2个国家企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg3 },
 ])
 
 const pageSize = ref(3)
@@ -92,17 +94,17 @@ const handleCurrentChange = (page) => {
     </section>
 
     <div class="news-section w1200px relative mt-20">
-      <router-link to="/main/news">
+      <RouterLink to="/main/news">
         <div class="title absolute z-1 text-25px text-green-700">
           <i class="b-l-solid b-green-700 w-1px h-20px b-l-3 inline-block" />
           新闻动态
         </div>
-      </router-link>
+      </RouterLink>
       <el-tabs v-model="activeName" class="b-cyan" @tab-click="handleClick">
         <el-tab-pane label="User" name="first">
           <div class="news-list">
             <div v-for="item in newsList" :key="item.title " class="news-card">
-              <router-link to="/main/news">
+              <RouterLink to="/main/news">
                 <img :src="item.img" alt="新闻图片" class="news-image">
                 <div class="news-content">
                   <h3 class="news-title">
@@ -112,7 +114,7 @@ const handleCurrentChange = (page) => {
                     2023-05-15
                   </div>
                 </div>
-              </router-link>
+              </RouterLink>
             </div>
           </div>
           <div class="pagination reliateve">
@@ -194,7 +196,9 @@ const handleCurrentChange = (page) => {
       </table>
 
       <div class="view-more">
-        <a href="#" class="btn btn-outline">查看更多</a>
+        <RouterLink to="/main/news" class="btn btn-outline">
+          查看更多
+        </RouterLink>
       </div>
     </section>
   </main>

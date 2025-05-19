@@ -23,15 +23,23 @@ const router = createRouter({
         },
         {
           path: 'news',
-          redirect: '/main/news/industyConsult',
+          redirect: '/main/news/news',
           children: [
-            { path: 'news', name: 'news', component: () => import('@/views/main/news/news.vue') },
+            // { path: 'news', name: 'news', component: () => import('@/views/main/news/news1.vue') ,
+
+            // },
             { path: 'industyConsult', name: 'industrConsult', component: () => import('@/views/main/news/IndustyConsult.vue') },
             {
               path: 'policyDoc',
               name: 'policyDoc',
               component: () => import('@/views/main/news/PolicyDoc.vue'),
             },
+            {
+              path: 'news',
+              name: 'news',
+              component: () => import('@/views/main/news/news.vue'),
+            },
+            { path: 'news/:id', name: 'detail', component: () => import('@/views/main/news/detail.vue') },
           ],
         },
         {

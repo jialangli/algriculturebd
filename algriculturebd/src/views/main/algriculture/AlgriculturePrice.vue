@@ -1,17 +1,34 @@
 <script setup lang='ts'>
+import { BarChart } from 'echarts/charts'
 import { useTemplateRef } from 'vue'
 import { useEcharts } from '@/hooks/useEcharts'
-import { createBarChart } from '@/views/charts/barChar'
+import { createLineChart } from '@/views/charts/lineChart'
 import Selection from './components/Selection.vue'
 
-const barChart = useTemplateRef('barChart')
-useEcharts(barChart, createBarChart())
+const lineChart = useTemplateRef('lineChart')
+const data = { xData: [
+  '2025-03-05',
+  '2025-03-06',
+  '2025-03-07',
+  '2025-03-08',
+
+], sellCount: [
+  3.8,
+  4.3,
+  4.2,
+  3.6,
+] }
+
+useEcharts(lineChart, createLineChart({
+  xData: data.xData,
+  y1: data.sellCount,
+}))
 </script>
 
 <template>
   <Selection />
   <!-- 价格图表 -->
-  <div ref="barChart" class="chart-container w400px h300px m-a" />
+  <div ref="lineChart" class="chart-container w800px h500px m-a" />
 
   <!-- 价格表格 -->
   <div class="data-table-container">
