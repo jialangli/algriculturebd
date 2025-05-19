@@ -78,12 +78,12 @@ const handleCurrentChange = (page) => {
   <main class="container">
     <!-- 轮播图/横幅 -->
     <section class="banner w1200px h300px">
-      <el-carousel :autoplay="false" style="height: 100%;width: 100%;">
+      <el-carousel :autoplay="false" style="height: 100%; width: 100%;">
         <RouterLink to="/main/news">
-          <el-carousel-item v-for="item in bannerItem" :key="item.id" style="height: 300px">
+          <el-carousel-item v-for="item in bannerItem" :key="item.id" style="height:100%">
             <a class="aspect-container size-full">
               <ElImage
-                :src="item.img" :alt="item.id" style="width: 100%; height: 100%"
+                :src="item.img" :alt="item.id" fit="cover" style="width: 100%; height: 100%"
               />
             </a>
           </el-carousel-item>
