@@ -11,7 +11,7 @@ useEcharts(barChart, createBarChart())
 <template>
   <Selection />
   <!-- 价格图表 -->
-  <div ref="barChart" class="chart-container w300px h300px" />
+  <div ref="barChart" class="chart-container w400px h300px m-a" />
 
   <!-- 价格表格 -->
   <div class="data-table-container">

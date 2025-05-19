@@ -68,13 +68,15 @@ const startCountdown = () => {
         </el-form-item>
 
         <div class="flex justify-center mt-8">
-          <el-button
-            type="primary"
-            class="w-25 h-12 text-lg"
-            :disabled="!phone || !verifyCode"
-          >
-            登录
-          </el-button>
+          <router-link to="/main">
+            <el-button
+              type="primary"
+              class="w-25 h-12 text-lg"
+              :disabled="!phone || !verifyCode"
+            >
+              登录
+            </el-button>
+          </router-link>
         </div>
       </el-form>
 

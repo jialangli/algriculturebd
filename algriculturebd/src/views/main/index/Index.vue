@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import type { TabsPaneContext } from 'element-plus'
 import { ElImage } from 'element-plus'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import bannerImg1 from '@/static/img/bannerImg/banner_1.png'
 import bannerImg2 from '@/static/img/bannerImg/banner_2.png'
 import bannerImg3 from '@/static/img/bannerImg/banner_3.png'
-
+// 轮播图
 const bannerItem = [{
   img: bannerImg3,
   id: 1,
@@ -20,6 +20,45 @@ const activeName = ref('first')
 
 const handleClick = (tab: TabsPaneContext, event: Event) => {
   console.log(tab, event)
+}
+// pagination
+const data = ref([
+  { name: 'John', age: 25, address: 'New York' },
+  { name: 'Jane', age: 30, address: 'Los Angeles' },
+  { name: 'Jane', age: 30, address: 'Los Angeles' },
+  { name: 'Jane', age: 30, address: 'Los Angeles' },
+  { name: 'Jane', age: 30, address: 'Los Angeles' },
+  { name: 'Jane', age: 30, address: 'Los Angeles' },
+  { name: 'Jane', age: 30, address: 'Los Angeles' },
+  { name: 'Jane', age: 30, address: 'Los Angeles' },
+  { name: 'Jane', age: 30, address: 'Los Angeles' },
+  { name: 'Jane', age: 30, address: 'Los Angeles' },
+  { name: 'Jane', age: 30, address: 'Los Angeles' },
+
+  // 更多数据...
+])
+const newsList = ref([
+  { title: '全辖首个1到2个国家企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg1 },
+  { title: '全辖首个1到2个国家企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg1 },
+  { title: '全辖首个1到2个国家企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg1 },
+  { title: '全辖首个1到2个国家企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg1 },
+  { title: '全辖首个1到2个国家企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg1 },
+  { title: '全辖首个1到2个国家企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg1 },
+])
+
+const pageSize = ref(3)
+const currentPage = ref(1)
+
+const total = computed(() => newsList.value.length)
+
+const currentPageData = computed(() => {
+  const start = (currentPage.value - 1) * pageSize.value
+  const end = start + pageSize.value
+  return data.value.slice(start, end)
+})
+
+const handleCurrentChange = (page) => {
+  currentPage.value = page
 }
 </script>
 
@@ -40,7 +79,7 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
     <!-- 轮播图/横幅 -->
     <section class="banner w1200px h300px">
       <el-carousel :autoplay="false" style="height: 100%;width: 100%;">
-        <RouterLink to="news">
+        <RouterLink to="/main/news">
           <el-carousel-item v-for="item in bannerItem" :key="item.id" style="height: 300px">
             <a class="aspect-container size-full">
               <ElImage
@@ -52,49 +91,38 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
       </el-carousel>
     </section>
 
-    <div class="news-section w1200px relative mt-20 h200px">
-      <div class="absolute z-1 text-20px">
-        <span class="text-green-800">|</span>
-        新闻动态
-      </div>
+    <div class="news-section w1200px relative mt-20">
+      <router-link to="/main/news">
+        <div class="title absolute z-1 text-25px text-green-700">
+          <i class="b-l-solid b-green-700 w-1px h-20px b-l-3 inline-block" />
+          新闻动态
+        </div>
+      </router-link>
       <el-tabs v-model="activeName" class="b-cyan" @tab-click="handleClick">
         <el-tab-pane label="User" name="first">
           <div class="news-list">
-            <div class="news-card">
-              <img src="https://via.placeholder.com/400x300?text=新闻图片1" alt="新闻图片" class="news-image">
-              <div class="news-content">
-                <h3 class="news-title">
-                  全辖首个1到2个国家企业就业和就业服务体系综合服务
-                </h3>
-                <div class="news-date">
-                  2023-05-15
+            <div v-for="item in newsList" :key="item.title " class="news-card">
+              <router-link to="/main/news">
+                <img :src="item.img" alt="新闻图片" class="news-image">
+                <div class="news-content">
+                  <h3 class="news-title">
+                    全辖首个1到2个国家企业就业和就业服务体系综合服务
+                  </h3>
+                  <div class="news-date">
+                    2023-05-15
+                  </div>
                 </div>
-              </div>
+              </router-link>
             </div>
-
-            <div class="news-card">
-              <img src="https://via.placeholder.com/400x300?text=新闻图片2" alt="新闻图片" class="news-image">
-              <div class="news-content">
-                <h3 class="news-title">
-                  三亚南山港推出"一站式"海选科技服务
-                </h3>
-                <div class="news-date">
-                  2023-05-10
-                </div>
-              </div>
-            </div>
-
-            <div class="news-card">
-              <img src="https://via.placeholder.com/400x300?text=新闻图片3" alt="新闻图片" class="news-image">
-              <div class="news-content">
-                <h3 class="news-title">
-                  全国人大代表、中国科学院院士创新：加强粮食类农产品品牌建设
-                </h3>
-                <div class="news-date">
-                  2023-05-05
-                </div>
-              </div>
-            </div>
+          </div>
+          <div class="pagination reliateve">
+            <el-pagination
+              background
+              layout="prev, pager, next"
+              :total="total"
+              :page-size="pageSize"
+              @current-change="handleCurrentChange"
+            />
           </div>
         </el-tab-pane>
         <el-tab-pane label="Config" name="second">
@@ -108,94 +136,6 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
         </el-tab-pane>
       </el-tabs>
     </div>
-
-    <!-- 新闻动态 -->
-    <section class="news-section">
-      <div class="news-header">
-        <h2 class="section-title">
-          新闻动态
-        </h2>
-        <div class="news-tabs">
-          <div class="news-tab active">
-            全部
-          </div>
-          <div class="news-tab">
-            政策文件
-          </div>
-          <div class="news-tab">
-            行业资讯
-          </div>
-        </div>
-      </div>
-
-      <div class="news-list">
-        <div class="news-card">
-          <img src="https://via.placeholder.com/400x300?text=新闻图片1" alt="新闻图片" class="news-image">
-          <div class="news-content">
-            <h3 class="news-title">
-              全辖首个1到2个国家企业就业和就业服务体系综合服务
-            </h3>
-            <div class="news-date">
-              2023-05-15
-            </div>
-          </div>
-        </div>
-
-        <div class="news-card">
-          <img src="https://via.placeholder.com/400x300?text=新闻图片2" alt="新闻图片" class="news-image">
-          <div class="news-content">
-            <h3 class="news-title">
-              三亚南山港推出"一站式"海选科技服务
-            </h3>
-            <div class="news-date">
-              2023-05-10
-            </div>
-          </div>
-        </div>
-
-        <div class="news-card">
-          <img src="https://via.placeholder.com/400x300?text=新闻图片3" alt="新闻图片" class="news-image">
-          <div class="news-content">
-            <h3 class="news-title">
-              全国人大代表、中国科学院院士创新：加强粮食类农产品品牌建设
-            </h3>
-            <div class="news-date">
-              2023-05-05
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="pagination">
-        <div class="page-item active">
-          1
-        </div>
-        <div class="page-item">
-          2
-        </div>
-        <div class="page-item">
-          3
-        </div>
-        <div class="page-item">
-          4
-        </div>
-        <div class="page-item">
-          5
-        </div>
-        <div class="page-item">
-          6
-        </div>
-        <div class="page-item">
-          ...
-        </div>
-        <div class="page-item">
-          10
-        </div>
-        <div class="page-item">
-          >
-        </div>
-      </div>
-    </section>
 
     <!-- 价格行情 -->
     <section class="price-trend">
@@ -262,7 +202,6 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
 
 <style scoped>
 /* tabs */
-
 ::v-deep(.el-tabs__nav-scroll) {
   display: flex;
   height: 50px;
@@ -270,6 +209,15 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
   justify-content: end;
   .el-tabs__item {
     font-size: large;
+  }
+}
+/* paginations */
+.pagination {
+  ::v-deep(.el-pager) {
+    color: #389e0d;
+    .is-active {
+      background-color: #389e0d !important;
+    }
   }
 }
 .demo-tabs > .el-tabs__content {
@@ -362,6 +310,7 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
+  margin-top: 10px;
 }
 
 .news-card {

@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  111
+  <div class="size-400 bg-red m-a" />
 </template>
 
 <style>

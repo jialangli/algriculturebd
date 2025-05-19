@@ -29,9 +29,11 @@ function navAvtive(index: number) {
           </RouterLink>
         </ul>
         <div class="auth-buttons">
-          <button class="btn btn-outline">
-            登录
-          </button>
+          <RouterLink to="/login">
+            <button class="btn btn-outline">
+              登录
+            </button>
+          </RouterLink>
           <button class="btn btn-primary">
             注册
           </button>
