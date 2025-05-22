@@ -51,6 +51,24 @@ const newsList = ref<NewsItem[]>([
     category: '品牌建设',
     views: 890,
   },
+  {
+    id: 5,
+    title: '茂名举办首届农产品品牌节，展示特色农产品',
+    date: '2024-03-10',
+    content: '茂名市举办首届农产品品牌节，集中展示荔枝、香蕉、龙眼等特色农产品。活动期间签订产销合作协议20余份，意向金额达2亿元。',
+    imageUrl: img,
+    category: '品牌建设',
+    views: 890,
+  },
+  {
+    id: 6,
+    title: '茂名举办首届农产品品牌节，展示特色农产品',
+    date: '2024-03-10',
+    content: '茂名市举办首届农产品品牌节，集中展示荔枝、香蕉、龙眼等特色农产品。活动期间签订产销合作协议20余份，意向金额达2亿元。',
+    imageUrl: img,
+    category: '品牌建设',
+    views: 890,
+  },
 ])
 
 const currentPage = ref(1)

@@ -40,28 +40,36 @@ const data = ref([
   // 更多数据...
 ])
 const newsList = ref([
-  { title: '全辖首个1到2个国家企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg3 },
-  { title: '全辖首个1到2个国家企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg3 },
-  { title: '全辖首个1到2个国家企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg3 },
-  { title: '全辖首个1到2个国家企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg3 },
-  { title: '全辖首个1到2个国家企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg3 },
-  { title: '全辖首个1到2个国家企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg3 },
+  { title: '1全辖首个1到2个企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg3 },
+  { title: '2全辖首个1到2个国家企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg3 },
+  { title: '3全辖首个1到2个国家企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg3 },
+  { title: '4全辖首个1到2个国家企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg3 },
+  { title: '5全辖首个1到2个国家企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg3 },
+  { title: '6全辖首个1到2个国家企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg3 },
+  { title: '1全辖首个1到2个企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg3 },
+  { title: '2全辖首个1到2个国家企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg3 },
+  { title: '3全辖首个1到2个国家企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg3 },
+  { title: '4全辖首个1到2个国家企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg3 },
+  { title: '5全辖首个1到2个国家企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg3 },
+  { title: '6全辖首个1到2个国家企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg3 },
 ])
 
 const pageSize = ref(3)
 const currentPage = ref(1)
+const Pagecount = ref(0)
+// const total = computed(() => newsList.value.length)
+// const currentPageData = computed(() => {
+//   const start = (currentPage.value - 1) * pageSize.value
+//   const end = start + pageSize.value
+//   return data.value.slice(start, end)
+// })
 
-const total = computed(() => newsList.value.length)
-
-const currentPageData = computed(() => {
+const paginatedNews = computed(() => {
   const start = (currentPage.value - 1) * pageSize.value
   const end = start + pageSize.value
-  return data.value.slice(start, end)
+  window.scrollTo({ top: 450, behavior: 'smooth' })
+  return newsList.value.slice(start, end)
 })
-
-const handleCurrentChange = (page) => {
-  currentPage.value = page
-}
 </script>
 
 <template>
@@ -102,28 +110,34 @@ const handleCurrentChange = (page) => {
         </RouterLink>
         <el-tabs v-model="activeName" class="b-cyan" @tab-click="handleClick">
           <el-tab-pane label="User" name="first">
-            <div class="news-list">
-              <div v-for="item in newsList" :key="item.title " class="news-card">
+            <div v-if="paginatedNews.length" class="news-list h-574px">
+              <div v-for="item in paginatedNews" :key="item.title " class="news-card h277px">
                 <RouterLink to="/main/news">
                   <img :src="item.img" alt="新闻图片" class="news-image">
                   <div class="news-content">
                     <h3 class="news-title">
-                      全辖首个1到2个国家企业就业和就业服务体系综合服务
+                      {{ item.title }}
                     </h3>
                     <div class="news-date">
-                      2023-05-15
+                      {{ item.date }}
                     </div>
                   </div>
                 </RouterLink>
               </div>
             </div>
+            <div v-else class="h-574px">
+              <el-empty :image-size="300" class="" />
+            </div>
+
             <div class="pagination reliateve">
               <el-pagination
+                v-model:current-page="currentPage"
+                v-model:page-size="pageSize"
                 background
-                layout="prev, pager, next"
-                :total="total"
-                :page-size="pageSize"
-                @current-change="handleCurrentChange"
+                layout="prev, pager,next,total,sizes"
+                :page-count="newsList.length"
+                :total="newsList.length"
+                :page-sizes="[2, 3, 6]"
               />
             </div>
           </el-tab-pane>
@@ -206,6 +220,10 @@ const handleCurrentChange = (page) => {
 </template>
 
 <style scoped>
+/* 空数据图片 */
+::v-deep(.el-empty) {
+  align-items: center;
+}
 /* tabs */
 ::v-deep(.el-tabs__nav-scroll) {
   display: flex;
@@ -326,6 +344,7 @@ const handleCurrentChange = (page) => {
   transition:
     transform 0.3s,
     box-shadow 0.3s;
+  /* height:; */
 }
 
 .news-card:hover {
