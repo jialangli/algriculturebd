@@ -56,7 +56,7 @@ const options = [
   </div>
 </template>
 
-<style>
+<style scoped>
 /* 数据过滤篮 */
 .filter-bar {
   background-color: white;

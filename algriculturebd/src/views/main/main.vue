@@ -6,12 +6,11 @@ const navMenu = useTemplateRef('navMenu')
 const navItem = ref([
   { name: '首页', path: '/main/index' },
   { name: '农产品产供销数据', path: '/main/algriculture' },
+  { name: '新闻', path: '/main/news' },
+
   { name: '关于我们', path: '/main/about' },
+
 ])
-const activeIndex = ref(0)
-function navAvtive(index: number) {
-  activeIndex.value = index
-}
 </script>
 
 <template>
@@ -21,11 +20,9 @@ function navAvtive(index: number) {
         <div class="logo">
           农产品产供销数据平台
         </div>
-        <ul v-for="item, index in navItem" ref="navMenu" :key="item.path" class="nav-menu">
-          <RouterLink :to="item.path">
-            <li class="nav-item cursor-pointer" :class="{ active: activeIndex === index }" @click="navAvtive(index)">
-              {{ item.name }}
-            </li>
+        <ul v-for="item in navItem" ref="navMenu" :key="item.path" class="nav-menu">
+          <RouterLink :to="item.path" active-class="active" class="nav-item cursor-pointer">
+            {{ item.name }}
           </RouterLink>
         </ul>
         <div class="auth-buttons">
@@ -40,7 +37,9 @@ function navAvtive(index: number) {
         </div>
       </div>
     </header>
-    <router-view />
+    <main class="">
+      <router-view />
+    </main>
     <!-- 页脚 -->
     <footer class="footer">
       <div class="container footer-container">
