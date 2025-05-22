@@ -9,8 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const windowHeight = window.innerHeight
 
       if (elementPosition < windowHeight - 100) {
-        element.style.opacity = '1'
-        element.style.transform = 'translateY(0)'
+        (element as HTMLElement).style.opacity = '1';
+        (element as HTMLElement).style.transform = 'translateY(0)'
       }
     })
   }
@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 
 <template>
-  <main class="container">
+  <main class="about-page">
     <!-- 关于我们头部 -->
     <section class="about-header">
       <h1>关于我们</h1>
@@ -127,148 +127,12 @@ document.addEventListener('DOMContentLoaded', () => {
   </main>
 </template>
 
-<style>
-:root {
-  --primary-color: #389e0d;
-  --primary-light: #f6ffed;
-  --text-dark: #333;
-  --text-medium: #666;
-  --text-light: #999;
-  --bg-light: #fafafa;
-  --white: #ffffff;
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
+<style scoped>
+.about-page {
   font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  color: var(--text-dark);
+  color: #333;
   line-height: 1.6;
-  background-color: var(--bg-light);
-}
-
-.container {
-  width: 100%;
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-/* 导航栏 */
-.navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  z-index: 1000;
-  padding: 15px 0;
-}
-
-.navbar-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.logo {
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--primary-color);
-  display: flex;
-  align-items: center;
-}
-
-.logo::before {
-  content: '🌱';
-  margin-right: 8px;
-  font-size: 24px;
-}
-
-.nav-menu {
-  display: flex;
-  list-style: none;
-  gap: 30px;
-}
-
-.nav-item {
-  position: relative;
-  font-size: 16px;
-  cursor: pointer;
-  padding: 8px 0;
-  transition: var(--transition);
-}
-
-.nav-item:hover {
-  color: var(--primary-color);
-}
-
-.nav-item.active {
-  color: var(--primary-color);
-  font-weight: 500;
-}
-
-.nav-item.active::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background-color: var(--primary-color);
-}
-
-.auth-buttons {
-  display: flex;
-  gap: 15px;
-}
-
-.btn {
-  padding: 10px 20px;
-  border-radius: var(--radius-sm);
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: var(--transition);
-  border: none;
-  outline: none;
-}
-
-.btn-outline {
-  background: transparent;
-  border: 1px solid var(--primary-color);
-  color: var(--primary-color);
-}
-
-.btn-outline:hover {
-  background: rgba(56, 158, 13, 0.05);
-}
-
-.btn-primary {
-  background: var(--primary-color);
-  color: var(--white);
-}
-
-.btn-primary:hover {
-  background: #2e8b0c;
-  box-shadow: 0 4px 12px rgba(56, 158, 13, 0.2);
-}
-
-/* 主要内容 */
-main {
-  padding-top: 80px;
+  background-color: #fafafa;
 }
 
 /* 关于我们头部 */
@@ -278,10 +142,10 @@ main {
   padding: 100px 0;
   text-align: center;
   margin-bottom: 60px;
-  border-radius: var(--radius-lg);
+  border-radius: 16px;
   overflow: hidden;
   backdrop-filter: blur(5px);
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .about-header::before {
@@ -289,8 +153,8 @@ main {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 10px;
+  height: 50px;
   background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="50" height="50" x="0" y="0" fill="none" stroke="%23389e0d" stroke-width="0.5" opacity="0.1"/></svg>');
   opacity: 0.3;
   z-index: -1;
@@ -298,7 +162,7 @@ main {
 
 .about-header h1 {
   font-size: 42px;
-  color: var(--primary-color);
+  color: #389e0d;
   margin-bottom: 20px;
   font-weight: 600;
   opacity: 0;
@@ -307,7 +171,7 @@ main {
 }
 
 .about-header p {
-  color: var(--text-medium);
+  color: #666;
   max-width: 800px;
   margin: 0 auto;
   font-size: 18px;
@@ -319,7 +183,7 @@ main {
 .section-title {
   font-size: 28px;
   font-weight: 600;
-  color: var(--primary-color);
+  color: #389e0d;
   margin-bottom: 40px;
   position: relative;
   display: inline-block;
@@ -330,9 +194,9 @@ main {
   position: absolute;
   bottom: -10px;
   left: 0;
-  width: 50px;
+  width: 100%;
   height: 3px;
-  background: var(--primary-color);
+  background: #389e0d;
   border-radius: 3px;
 }
 
@@ -349,7 +213,7 @@ main {
   top: 0;
   width: 2px;
   height: 100%;
-  background: linear-gradient(to bottom, var(--primary-color), rgba(56, 158, 13, 0.2));
+  background: linear-gradient(to bottom, #389e0d, rgba(56, 158, 13, 0.2));
   transform: translateX(-50%);
 }
 
@@ -358,12 +222,12 @@ main {
   width: calc(50% - 40px);
   padding: 30px;
   background: rgba(255, 255, 255, 0.9);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-sm);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   margin-bottom: 40px;
   opacity: 0;
   transform: translateY(30px);
-  transition: var(--transition);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   backdrop-filter: blur(5px);
   border: 1px solid rgba(255, 255, 255, 0.3);
 }
@@ -380,15 +244,15 @@ main {
 
 .timeline-item:hover {
   transform: translateY(-5px) !important;
-  box-shadow: var(--shadow-md);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .timeline-year {
   position: absolute;
   width: 80px;
   height: 80px;
-  background: var(--primary-color);
-  color: var(--white);
+  background: #389e0d;
+  color: #fff;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -405,11 +269,11 @@ main {
 .timeline-item h3 {
   font-size: 20px;
   margin-bottom: 15px;
-  color: var(--primary-color);
+  color: #389e0d;
 }
 
 .timeline-item p {
-  color: var(--text-medium);
+  color: #666;
 }
 
 /* 团队介绍 */
@@ -441,11 +305,11 @@ main {
 
 .team-card {
   background: rgba(255, 255, 255, 0.95);
-  border-radius: var(--radius-md);
+  border-radius: 12px;
   overflow: hidden;
   text-align: center;
-  transition: var(--transition);
-  box-shadow: var(--shadow-sm);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   opacity: 0;
   transform: translateY(30px);
   border: 1px solid rgba(255, 255, 255, 0.4);
@@ -463,19 +327,19 @@ main {
 
 .team-card:hover {
   transform: translateY(-10px) !important;
-  box-shadow: var(--shadow-md);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .team-photo {
   width: 100%;
   height: 300px;
   object-fit: cover;
-  border-bottom: 3px solid var(--primary-color);
+  border-bottom: 3px solid #389e0d;
   background: linear-gradient(45deg, #f5f5f5, #e0e0e0);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--text-light);
+  color: #999;
   font-size: 18px;
 }
 
@@ -486,17 +350,17 @@ main {
 .team-info h4 {
   font-size: 18px;
   margin-bottom: 5px;
-  color: var(--text-dark);
+  color: #333;
 }
 
 .team-info p {
-  color: var(--text-medium);
+  color: #666;
   font-size: 14px;
   margin-bottom: 5px;
 }
 
 .team-info p:last-child {
-  color: var(--text-light);
+  color: #999;
   font-size: 13px;
 }
 
@@ -512,17 +376,19 @@ main {
   justify-content: center;
   gap: 40px;
   margin-top: 40px;
+  /* align-items: center; */
 }
 
 .partner-logo {
   height: 60px;
+  line-height: 40px;
   filter: grayscale(100%) brightness(1.2);
   opacity: 0.7;
-  transition: var(--transition);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   padding: 10px;
   background: rgba(255, 255, 255, 0.9);
-  border-radius: var(--radius-sm);
-  box-shadow: var(--shadow-sm);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .partner-logo:hover {
@@ -567,15 +433,6 @@ main {
 
 /* 响应式设计 */
 @media (max-width: 768px) {
-  .navbar-container {
-    flex-direction: column;
-    gap: 15px;
-  }
-
-  .nav-menu {
-    gap: 15px;
-  }
-
   .about-header {
     padding: 60px 0;
   }

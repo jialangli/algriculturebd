@@ -37,9 +37,10 @@ const navItem = ref([
         </div>
       </div>
     </header>
-    <main class="">
+    <!-- 主要内容 -->
+    <div class="m-a w-1200px">
       <router-view />
-    </main>
+    </div>
     <!-- 页脚 -->
     <footer class="footer">
       <div class="container footer-container">
@@ -122,8 +123,8 @@ ul {
 
 .container {
   max-width: 1200px;
-  margin: 0 auto;
   padding: 0 15px;
+  margin: 0 auto;
 }
 
 .btn {
@@ -194,6 +195,11 @@ ul {
   font-size: 20px;
   font-weight: bold;
   color: #389e0d;
+}
+.logo::before {
+  content: '🌱';
+  margin-right: 8px;
+  font-size: 24px;
 }
 
 .nav-menu {

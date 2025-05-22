@@ -74,66 +74,6 @@ function tabsAvtive(index: number) {
   background-color: #f6ffed;
 }
 
-/* 导航栏 */
-.navbar {
-  background-color: white;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-.navbar-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 60px;
-}
-
-.logo {
-  font-size: 20px;
-  font-weight: bold;
-  color: #389e0d;
-  display: flex;
-  align-items: center;
-}
-
-.logo-icon {
-  margin-right: 8px;
-  font-size: 24px;
-}
-
-.nav-menu {
-  display: flex;
-}
-
-.nav-item {
-  margin-left: 25px;
-  position: relative;
-  padding: 18px 0;
-  font-weight: 500;
-  font-size: 15px;
-}
-
-.nav-item.active {
-  color: #389e0d;
-}
-
-.nav-item.active::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background-color: #389e0d;
-}
-
-.auth-buttons .btn {
-  margin-left: 10px;
-  padding: 6px 12px;
-}
-
 /* 数据选项卡 */
 .data-tabs {
   display: flex;

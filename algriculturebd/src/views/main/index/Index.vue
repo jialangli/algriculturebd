@@ -65,143 +65,144 @@ const handleCurrentChange = (page) => {
 </script>
 
 <template>
-  <!-- 搜索栏 -->
+  <div class="m-a">
+    <!-- 搜索栏 -->
+    <section class="search-bar">
+      <div class="search-container">
+        <input type="text" class="search-input" placeholder="搜索农产品、供应商、价格...">
+        <button class="search-btn">
+          搜索
+        </button>
+      </div>
+    </section>
 
-  <section class="search-bar">
-    <div class="search-container">
-      <input type="text" class="search-input" placeholder="搜索农产品、供应商、价格...">
-      <button class="search-btn">
-        搜索
-      </button>
-    </div>
-  </section>
+    <!-- 主要内容 -->
+    <main class="m-a w100%">
+      <!-- 轮播图/横幅 -->
+      <section class="banner h300px">
+        <el-carousel :autoplay="false" style="height: 100%; width: 100%;">
+          <RouterLink to="/main/news">
+            <el-carousel-item v-for="item in bannerItem" :key="item.id" style="height:100%">
+              <a class="aspect-container size-full">
+                <ElImage
+                  :src="item.img" :alt="item.id" fit="cover" style="width: 100%; height: 100%"
+                />
+              </a>
+            </el-carousel-item>
+          </RouterLink>
+        </el-carousel>
+      </section>
 
-  <!-- 主要内容 -->
-  <main class="container">
-    <!-- 轮播图/横幅 -->
-    <section class="banner w1200px h300px">
-      <el-carousel :autoplay="false" style="height: 100%; width: 100%;">
+      <div class="news-section relative mt-20">
         <RouterLink to="/main/news">
-          <el-carousel-item v-for="item in bannerItem" :key="item.id" style="height:100%">
-            <a class="aspect-container size-full">
-              <ElImage
-                :src="item.img" :alt="item.id" fit="cover" style="width: 100%; height: 100%"
-              />
-            </a>
-          </el-carousel-item>
+          <div class="title absolute z-1 text-25px text-green-700">
+            <i class="b-l-solid b-green-700 w-1px h-20px b-l-3 inline-block" />
+            新闻动态
+          </div>
         </RouterLink>
-      </el-carousel>
-    </section>
-
-    <div class="news-section w1200px relative mt-20">
-      <RouterLink to="/main/news">
-        <div class="title absolute z-1 text-25px text-green-700">
-          <i class="b-l-solid b-green-700 w-1px h-20px b-l-3 inline-block" />
-          新闻动态
-        </div>
-      </RouterLink>
-      <el-tabs v-model="activeName" class="b-cyan" @tab-click="handleClick">
-        <el-tab-pane label="User" name="first">
-          <div class="news-list">
-            <div v-for="item in newsList" :key="item.title " class="news-card">
-              <RouterLink to="/main/news">
-                <img :src="item.img" alt="新闻图片" class="news-image">
-                <div class="news-content">
-                  <h3 class="news-title">
-                    全辖首个1到2个国家企业就业和就业服务体系综合服务
-                  </h3>
-                  <div class="news-date">
-                    2023-05-15
+        <el-tabs v-model="activeName" class="b-cyan" @tab-click="handleClick">
+          <el-tab-pane label="User" name="first">
+            <div class="news-list">
+              <div v-for="item in newsList" :key="item.title " class="news-card">
+                <RouterLink to="/main/news">
+                  <img :src="item.img" alt="新闻图片" class="news-image">
+                  <div class="news-content">
+                    <h3 class="news-title">
+                      全辖首个1到2个国家企业就业和就业服务体系综合服务
+                    </h3>
+                    <div class="news-date">
+                      2023-05-15
+                    </div>
                   </div>
-                </div>
-              </RouterLink>
+                </RouterLink>
+              </div>
             </div>
-          </div>
-          <div class="pagination reliateve">
-            <el-pagination
-              background
-              layout="prev, pager, next"
-              :total="total"
-              :page-size="pageSize"
-              @current-change="handleCurrentChange"
-            />
-          </div>
-        </el-tab-pane>
-        <el-tab-pane label="Config" name="second">
-          Config
-        </el-tab-pane>
-        <el-tab-pane label="Role" name="third" style="color: red;">
-          Role
-        </el-tab-pane>
-        <el-tab-pane label="Task" name="fourth">
-          Task
-        </el-tab-pane>
-      </el-tabs>
-    </div>
-
-    <!-- 价格行情 -->
-    <section class="price-trend">
-      <div class="section-title">
-        农产品价格行情
+            <div class="pagination reliateve">
+              <el-pagination
+                background
+                layout="prev, pager, next"
+                :total="total"
+                :page-size="pageSize"
+                @current-change="handleCurrentChange"
+              />
+            </div>
+          </el-tab-pane>
+          <el-tab-pane label="Config" name="second">
+            Config
+          </el-tab-pane>
+          <el-tab-pane label="Role" name="third" style="color: red;">
+            Role
+          </el-tab-pane>
+          <el-tab-pane label="Task" name="fourth">
+            Task
+          </el-tab-pane>
+        </el-tabs>
       </div>
 
-      <table class="price-table">
-        <thead>
-          <tr>
-            <th>品类</th>
-            <th>价格(元/斤)</th>
-            <th>城市</th>
-            <th>升/降</th>
-            <th>走势</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>菠菜</td>
-            <td>1.6</td>
-            <td>茂名</td>
-            <td class="trend-up">
-              ↑4.11%
-            </td>
-            <td>📈</td>
-          </tr>
-          <tr>
-            <td>胡萝卜</td>
-            <td>1.6</td>
-            <td>茂名</td>
-            <td class="trend-up">
-              ↑3.11%
-            </td>
-            <td>📈</td>
-          </tr>
-          <tr>
-            <td>白菜</td>
-            <td>1.2</td>
-            <td>茂名</td>
-            <td class="trend-down">
-              ↓2.45%
-            </td>
-            <td>📉</td>
-          </tr>
-          <tr>
-            <td>土豆</td>
-            <td>2.1</td>
-            <td>茂名</td>
-            <td class="trend-up">
-              ↑1.78%
-            </td>
-            <td>📈</td>
-          </tr>
-        </tbody>
-      </table>
+      <!-- 价格行情 -->
+      <section class="price-trend">
+        <div class="section-title">
+          农产品价格行情
+        </div>
 
-      <div class="view-more">
-        <RouterLink to="/main/news" class="btn btn-outline">
-          查看更多
-        </RouterLink>
-      </div>
-    </section>
-  </main>
+        <table class="price-table">
+          <thead>
+            <tr>
+              <th>品类</th>
+              <th>价格(元/斤)</th>
+              <th>城市</th>
+              <th>升/降</th>
+              <th>走势</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>菠菜</td>
+              <td>1.6</td>
+              <td>茂名</td>
+              <td class="trend-up">
+                ↑4.11%
+              </td>
+              <td>📈</td>
+            </tr>
+            <tr>
+              <td>胡萝卜</td>
+              <td>1.6</td>
+              <td>茂名</td>
+              <td class="trend-up">
+                ↑3.11%
+              </td>
+              <td>📈</td>
+            </tr>
+            <tr>
+              <td>白菜</td>
+              <td>1.2</td>
+              <td>茂名</td>
+              <td class="trend-down">
+                ↓2.45%
+              </td>
+              <td>📉</td>
+            </tr>
+            <tr>
+              <td>土豆</td>
+              <td>2.1</td>
+              <td>茂名</td>
+              <td class="trend-up">
+                ↑1.78%
+              </td>
+              <td>📈</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="view-more">
+          <RouterLink to="/main/news" class="btn btn-outline">
+            查看更多
+          </RouterLink>
+        </div>
+      </section>
+    </main>
+  </div>
 </template>
 
 <style scoped>
