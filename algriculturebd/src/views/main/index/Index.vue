@@ -109,7 +109,7 @@ const paginatedNews = computed(() => {
           </div>
         </RouterLink>
         <el-tabs v-model="activeName" class="b-cyan" @tab-click="handleClick">
-          <el-tab-pane label="User" name="first">
+          <el-tab-pane label="政策" name="first">
             <div v-if="paginatedNews.length" class="news-list h-574px">
               <div v-for="item in paginatedNews" :key="item.title " class="news-card h277px">
                 <RouterLink to="/main/news">
@@ -134,10 +134,11 @@ const paginatedNews = computed(() => {
                 v-model:current-page="currentPage"
                 v-model:page-size="pageSize"
                 background
-                layout="prev, pager,next,total,sizes"
+                layout="prev, pager, next, total, sizes"
                 :page-count="newsList.length"
                 :total="newsList.length"
-                :page-sizes="[2, 3, 6]"
+                :page-sizes="[3, 6]"
+                total-text="总共12页"
               />
             </div>
           </el-tab-pane>
@@ -334,6 +335,7 @@ const paginatedNews = computed(() => {
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
   margin-top: 10px;
+  height: 100%;
 }
 
 .news-card {
@@ -344,7 +346,9 @@ const paginatedNews = computed(() => {
   transition:
     transform 0.3s,
     box-shadow 0.3s;
-  /* height:; */
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .news-card:hover {
@@ -353,9 +357,10 @@ const paginatedNews = computed(() => {
 }
 
 .news-image {
-  height: 160px;
+  height: 200px;
   width: 100%;
   object-fit: cover;
+  flex: 1;
 }
 
 .news-content {
