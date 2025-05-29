@@ -41,7 +41,7 @@ const toogleBtn = () => {
       </div>
 
       <!-- 表单 -->
-      <el-form class="space-y-6 w-70% m-a">
+      <el-form class="m-a space-y-6 w-70%">
         <el-form-item>
           <el-input
             v-model="phone"
@@ -73,7 +73,7 @@ const toogleBtn = () => {
       </el-form>
 
       <!-- 其他登录方式 -->
-      <div class="mt-8 text-center">
+      <div class="text-center mt-8">
         <div class="flex justify-center gap-6">
           <router-link to="/main">
             <el-button

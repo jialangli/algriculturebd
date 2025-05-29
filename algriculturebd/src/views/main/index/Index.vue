@@ -3,9 +3,11 @@ import type { TabsPaneContext } from 'element-plus'
 import { ElImage } from 'element-plus'
 import { computed, ref } from 'vue'
 import { RouterLink } from 'vue-router'
-import bannerImg1 from '@/static/img/bannerImg/banner_1.png'
-import bannerImg2 from '@/static/img/bannerImg/banner_2.png'
+// import bannerImg2 from '@/static/img/bannerImg/banner_new.webp'
 import bannerImg3 from '@/static/img/bannerImg/banana.jpg'
+import bannerImg2 from '@/static/img/bannerImg/boluo2.jpg'
+import bannerImg1 from '@/static/img/bannerImg/boluo.jpg'
+import bannerImg4 from '@/static/img/bannerImg/lingmeng.jpg'
 
 // 轮播图
 const bannerItem = [{
@@ -13,10 +15,12 @@ const bannerItem = [{
   id: 1,
 }, {
   img: bannerImg3,
+  id: 2,
 }, {
   img: bannerImg3,
   id: 3,
 }]
+// newlist图片
 
 const activeName = ref('first')
 
@@ -27,6 +31,7 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
 const data = ref([
   { name: 'John', age: 25, address: 'New York' },
   { name: 'Jane', age: 30, address: 'Los Angeles' },
+
   { name: 'Jane', age: 30, address: 'Los Angeles' },
   { name: 'Jane', age: 30, address: 'Los Angeles' },
   { name: 'Jane', age: 30, address: 'Los Angeles' },
@@ -40,18 +45,18 @@ const data = ref([
   // 更多数据...
 ])
 const newsList = ref([
-  { title: '1全辖首个1到2个企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg3 },
-  { title: '2全辖首个1到2个国家企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg3 },
-  { title: '3全辖首个1到2个国家企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg3 },
-  { title: '4全辖首个1到2个国家企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg3 },
-  { title: '5全辖首个1到2个国家企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg3 },
-  { title: '6全辖首个1到2个国家企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg3 },
-  { title: '1全辖首个1到2个企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg3 },
-  { title: '2全辖首个1到2个国家企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg3 },
-  { title: '3全辖首个1到2个国家企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg3 },
-  { title: '4全辖首个1到2个国家企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg3 },
-  { title: '5全辖首个1到2个国家企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg3 },
-  { title: '6全辖首个1到2个国家企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg3 },
+  { title: '1全辖首个1到2个企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg1 },
+  { title: '2全辖首个1到2个国家企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg2 },
+  { title: '3全辖首个1到2个国家企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg4 },
+  { title: '4全辖首个1到2个国家企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg2 },
+  { title: '5全辖首个1到2个国家企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg2 },
+  { title: '6全辖首个1到2个国家企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg2 },
+  { title: '1全辖首个1到2个企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg2 },
+  { title: '2全辖首个1到2个国家企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg2 },
+  { title: '3全辖首个1到2个国家企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg2 },
+  { title: '4全辖首个1到2个国家企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg2 },
+  { title: '5全辖首个1到2个国家企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg2 },
+  { title: '6全辖首个1到2个国家企业就业和就业服务体系综合服务', date: '2023-05-15', img: bannerImg2 },
 ])
 
 const pageSize = ref(3)

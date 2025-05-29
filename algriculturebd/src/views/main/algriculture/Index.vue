@@ -1,5 +1,4 @@
 <script setup lang='ts'>
-import { dividerProps } from 'element-plus'
 import { ref } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
 

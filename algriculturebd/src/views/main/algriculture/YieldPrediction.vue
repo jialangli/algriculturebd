@@ -1,5 +1,5 @@
 <script setup lang='ts'>
-import { ref, useTemplateRef } from 'vue'
+import { useTemplateRef } from 'vue'
 import { useEcharts } from '@/hooks/useEcharts'
 import { createBarChart } from '@/views/charts/barChar'
 import Selection from './components/Selection.vue'

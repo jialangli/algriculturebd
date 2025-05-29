@@ -1,13 +1,11 @@
 <script setup lang="ts">
-import { ref, useTemplateRef } from 'vue'
-import router from '@/router'
+import {  useTemplateRef,ref } from 'vue'
 
 const navMenu = useTemplateRef('navMenu')
 const navItem = ref([
   { name: '首页', path: '/main/index' },
   { name: '农产品产供销数据', path: '/main/algriculture' },
   { name: '新闻', path: '/main/news' },
-
   { name: '关于我们', path: '/main/about' },
 
 ])
@@ -15,10 +13,19 @@ const navItem = ref([
 
 <template>
   <div>
+
+
+
     <header class="navbar">
+
+
+      
       <div class="container navbar-container">
         <div class="logo">
           农产品产供销数据平台
+
+
+
         </div>
         <ul v-for="item in navItem" ref="navMenu" :key="item.path" class="nav-menu">
           <RouterLink :to="item.path" active-class="active" class="nav-item cursor-pointer">

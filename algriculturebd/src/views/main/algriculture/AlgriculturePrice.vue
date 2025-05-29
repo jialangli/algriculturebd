@@ -1,5 +1,4 @@
 <script setup lang='ts'>
-import { BarChart } from 'echarts/charts'
 import { useTemplateRef } from 'vue'
 import { useEcharts } from '@/hooks/useEcharts'
 import { createLineChart } from '@/views/charts/lineChart'

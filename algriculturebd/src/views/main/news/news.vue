@@ -1,6 +1,6 @@
 <script setup lang='ts'>
 import { ElMessage } from 'element-plus'
-import { computed, onMounted, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import img from '@/static/img/bannerImg/banner_new.webp'
 
@@ -122,12 +122,12 @@ const handleDetialClick = (params: string) => {
 
 <template>
   <div class="news-container p-6">
-    <h1 class="text-3xl font-bold text-center mb-8">
+    <h1 class="font-bold text-center mb-8 text-3xl">
       茂名农产品新闻
     </h1>
 
     <!-- 搜索和筛选区域 -->
-    <div class="search-filter mb-6 flex flex-col md:flex-row gap-4">
+    <div class="flex search-filter mb-6 flex-col md:flex-row gap-4">
       <el-input
         v-model="searchKeyword"
         placeholder="搜索新闻..."
@@ -162,7 +162,7 @@ const handleDetialClick = (params: string) => {
 
         v-for="news in paginatedNews"
         :key="news.id"
-        class="news-item bg-white rounded-lg shadow-md p-6"
+        class="bg-white p-6 news-item rounded-lg shadow-md"
         @click="handleDetialClick('2') "
       >
         <div class="flex flex-col md:flex-row gap-6">
@@ -170,7 +170,7 @@ const handleDetialClick = (params: string) => {
             <img
               :src="news.imageUrl"
               :alt="news.title"
-              class="w-full h-48 object-cover rounded-lg"
+              class="w-full rounded-lg h-48 object-cover"
             >
           </div>
           <div class="news-content flex-1">
@@ -180,7 +180,7 @@ const handleDetialClick = (params: string) => {
               </el-tag>
               <span class="text-gray-500 text-sm">{{ news.views }} 阅读</span>
             </div>
-            <h2 class="text-xl font-semibold mb-2">
+            <h2 class="mb-2 text-xl font-semibold">
               {{ news.title }}
             </h2>
             <p class="text-gray-500 mb-4">
@@ -195,7 +195,7 @@ const handleDetialClick = (params: string) => {
     </div>
 
     <!-- 分页 -->
-    <div class="pagination-container mt-8 flex justify-center">
+    <div class="mt-8 flex justify-center pagination-container">
       <el-pagination
         v-model:current-page="currentPage"
         :page-size="pageSize"

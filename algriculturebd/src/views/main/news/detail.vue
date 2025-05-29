@@ -84,9 +84,9 @@ const handleComment = () => {
 </script>
 
 <template>
-  <div class="news-detail-container max-w-4xl mx-auto p-6">
+  <div class="p-6 news-detail-container max-w-4xl mx-auto">
     <!-- 文章头部 -->
-    <div class="article-header mb-8">
+    <div class="mb-8 article-header">
       <h1 class="text-3xl font-bold mb-4">
         {{ news.title }}
       </h1>
@@ -98,7 +98,7 @@ const handleComment = () => {
     </div>
 
     <!-- 文章内容 -->
-    <div class="article-content mb-8">
+    <div class="mb-8 article-content">
       <div class="prose max-w-none">
         <p v-for="(paragraph, index) in news.content.split('\n')" :key="index" class="mb-4">
           {{ paragraph }}
@@ -107,11 +107,11 @@ const handleComment = () => {
     </div>
 
     <!-- 图片展示 -->
-    <div class="article-images mb-8">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div class="mb-8 article-images">
+      <div class="gap-4 grid grid-cols-1 md:grid-cols-3">
         <div v-for="(image, index) in news.images" :key="index" class="image-container">
           <img :src="image.url" :alt="image.caption" class="w-full h-48 object-cover rounded-lg">
-          <p class="text-center text-gray-600 mt-2">
+          <p class="text-center mt-2 text-gray-600">
             {{ image.caption }}
           </p>
         </div>
@@ -119,7 +119,7 @@ const handleComment = () => {
     </div>
 
     <!-- 标签 -->
-    <div class="article-tags mb-8">
+    <div class="mb-8 article-tags">
       <el-tag
         v-for="tag in news.tags"
         :key="tag"
@@ -131,7 +131,7 @@ const handleComment = () => {
     </div>
 
     <!-- 互动区域 -->
-    <div class="interaction-area mb-8">
+    <div class="mb-8 interaction-area">
       <div class="flex items-center gap-4">
         <el-button
           :type="isLiked ? 'primary' : 'default'"
@@ -158,7 +158,7 @@ const handleComment = () => {
       </h3>
 
       <!-- 评论输入框 -->
-      <div class="comment-input mb-6">
+      <div class="mb-6 comment-input">
         <el-input
           v-model="commentText"
           type="textarea"
@@ -177,9 +177,9 @@ const handleComment = () => {
         <div
           v-for="comment in comments"
           :key="comment.id"
-          class="comment-item bg-gray-50 p-4 rounded-lg"
+          class="bg-gray-50 rounded-lg comment-item p-4"
         >
-          <div class="flex justify-between items-start mb-2">
+          <div class="flex mb-2 justify-between items-start">
             <span class="font-semibold">{{ comment.user }}</span>
             <span class="text-gray-500 text-sm">{{ comment.time }}</span>
           </div>

@@ -144,7 +144,7 @@ const options = [
   {
     value: '澳门特别行政区',
     label: '澳门特别行政区',
-  }
+  },
 ]
 
 const categoryOptions = [
