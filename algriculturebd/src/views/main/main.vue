@@ -31,9 +31,9 @@ const navItem = ref([
               登录
             </button>
           </RouterLink>
-          <button class="btn btn-primary">
+          <!-- <button class="btn btn-primary">
             注册
-          </button>
+          </button> -->
         </div>
       </div>
     </header>
