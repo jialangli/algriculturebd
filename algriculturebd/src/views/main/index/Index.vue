@@ -5,7 +5,7 @@ import { computed, ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import bannerImg1 from '@/static/img/bannerImg/banner_1.png'
 import bannerImg2 from '@/static/img/bannerImg/banner_2.png'
-import bannerImg3 from '@/static/img/bannerImg/banner_new.webp'
+import bannerImg3 from '@/static/img/bannerImg/banana.jpg'
 
 // 轮播图
 const bannerItem = [{
