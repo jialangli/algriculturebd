@@ -80,14 +80,14 @@ const paginatedNews = computed(() => {
 <template>
   <div class="m-a">
     <!-- 搜索栏 -->
-    <section class="search-bar">
+    <!-- <section class="search-bar">
       <div class="search-container">
         <input type="text" class="search-input" placeholder="搜索农产品、供应商、价格...">
         <button class="search-btn">
           搜索
         </button>
       </div>
-    </section>
+    </section> -->
 
     <!-- 主要内容 -->
     <main class="m-a w100%">
@@ -147,14 +147,8 @@ const paginatedNews = computed(() => {
               />
             </div>
           </el-tab-pane>
-          <el-tab-pane label="Config" name="second">
-            Config
-          </el-tab-pane>
-          <el-tab-pane label="Role" name="third" style="color: red;">
-            Role
-          </el-tab-pane>
-          <el-tab-pane label="Task" name="fourth">
-            Task
+          <el-tab-pane label="新闻" name="second">
+            新闻
           </el-tab-pane>
         </el-tabs>
       </div>
